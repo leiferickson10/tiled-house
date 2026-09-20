@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --clay: #c1502e;
+  --plaster: #f3ede3;
+  --sage: #5b6b3f;
+  --mauve: #c99a9e;
+  --mustard: #d9a441;
+  --ink: #2b241e;
+  --sky: #90a9c3;
+  --terracotta: #ac5725;
+  --khaki: #b4b59a;
+  --gold: #ddcd71;
+  --rose: #a7564c;
+  --offwhite: #f7f4f0;
+  --teal: #2d5366;
+  --forest: #3f4d32;
+  --sprout: #c7dea4;
+  --olive: #b7b386;
+  --dustyplum: #9c708a;
+  --maroon: #4a1d31;
+  --espresso: #4c1e12;
+}
+
+@theme inline {
+  --color-clay: var(--clay);
+  --color-plaster: var(--plaster);
+  --color-sage: var(--sage);
+  --color-mauve: var(--mauve);
+  --color-mustard: var(--mustard);
+  --color-ink: var(--ink);
+  --color-sky: var(--sky);
+  --color-terracotta: var(--terracotta);
+  --color-khaki: var(--khaki);
+  --color-gold: var(--gold);
+  --color-rose: var(--rose);
+  --color-offwhite: var(--offwhite);
+  --color-teal: var(--teal);
+  --color-forest: var(--forest);
+  --color-sprout: var(--sprout);
+  --color-olive: var(--olive);
+  --color-dustyplum: var(--dustyplum);
+  --color-maroon: var(--maroon);
+  --color-espresso: var(--espresso);
+  --font-serif: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--plaster);
+  color: var(--ink);
+}
