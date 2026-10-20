@@ -1,12 +1,25 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { DM_Sans, Fraunces, Inter, Marcellus } from "next/font/google";
 import "./globals.css";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "800"],
   style: ["normal", "italic"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+});
+
+const marcellus = Marcellus({
+  variable: "--font-marcellus",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 const inter = Inter({
@@ -15,16 +28,16 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Tiled House — A Craft Studio & Home Decor Shop",
+  title: "Tiled House — A Home Decor Shop",
   description:
-    "One-of-a-kind ceramics, tile pieces, and home decor. Book our craft studio and make something yourself, or shop the collection.",
+    "One-of-a-kind ceramics, tile pieces, and home decor. Shop the collection.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${inter.variable} ${dmSans.variable} ${marcellus.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-plaster text-ink">
         {children}
