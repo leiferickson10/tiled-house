@@ -77,6 +77,10 @@ export async function POST(req: Request) {
         },
       ],
 
+      // Discounts: shows a "promotion code" box. Codes (e.g. FRIENDS) are created
+      // in the Stripe dashboard, so rates and expiry never live in this code.
+      allow_promotion_codes: true,
+
       // Fraud signals: more data = better Radar scoring and easier dispute defense.
       billing_address_collection: "required",
       phone_number_collection: { enabled: true },

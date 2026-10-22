@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { DESIGNS, type Design } from "../lib/designs";
 import { gridId, unitPriceCents } from "../lib/shop";
-import { TILES } from "../lib/tiles";
+import { TILES, tileBackground } from "../lib/tiles";
 import AddToCartButton from "./AddToCartButton";
-import CoasterThumb, { GLASS_SHINE } from "./CoasterThumb";
+import CoasterThumb from "./CoasterThumb";
 
 type Filter = number | null; // index into TILES, or null for everything
 
@@ -38,7 +38,7 @@ export default function DesignGallery() {
               <span
                 className="mr-2 inline-block h-3.5 w-3.5 rounded-[2px] align-[-2px]"
                 style={{
-                  background: `${GLASS_SHINE}, ${t.hex}`,
+                  background: tileBackground(t),
                   boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.15)",
                 }}
               />

@@ -270,15 +270,23 @@ function Header() {
 function Hero() {
   return (
     <Section sec={HERO} bg={COLORS.cream}>
-      <Photo
-        sec={HERO}
-        src="/images/home/hero.jpg"
-        alt="Glass tile coasters around a bowl of oranges"
-        x={0}
-        y={314}
-        w={W}
-        h={494}
-      />
+      {/* Canva: 1366x494 photo rectangle with a 6px #b15356 stroke inside its edge */}
+      <div
+        className="absolute inset-0"
+        style={{
+          border: `${fs(6)} solid ${COLORS.rose}`,
+          boxSizing: "border-box",
+        }}
+      >
+        <Image
+          src="/images/home/hero.jpg"
+          alt="Glass tile coasters with pink carnations"
+          fill
+          sizes="100vw"
+          className="object-fill"
+          priority
+        />
+      </div>
     </Section>
   );
 }
