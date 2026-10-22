@@ -226,7 +226,8 @@ function Header() {
         w={261}
         h={233}
       />
-      <Abs sec={HEADER} x={310} y={24} w={740} h={265}>
+      {/* Centered between the logo's right edge (284) and the page edge (1366). */}
+      <Abs sec={HEADER} x={459} y={24} w={740} h={265}>
         <h1 className="relative h-full w-full">
           <span className="sr-only">Tiled House</span>
           <Image
