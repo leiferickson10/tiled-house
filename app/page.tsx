@@ -180,7 +180,7 @@ export default function Home() {
 // "Studio Tile" and "Tile Cart" tabs intentionally removed; the rest are centered.
 const NAV = [
   { label: "HOME", href: "#home", active: true },
-  { label: "SHOP", href: "#shop", active: false },
+  { label: "SHOP", href: "/shop", active: false },
 ];
 
 function TopNav() {
@@ -247,7 +247,7 @@ function Header() {
         h={66}
         bg={COLORS.rose}
         color={COLORS.cream}
-        href="#shop"
+        href="/shop"
       >
         View our Inventory
       </Btn>
@@ -314,7 +314,7 @@ function About() {
         h={72.6}
         bg="#ddcd71"
         color="#a75e54"
-        href="#shop"
+        href="/shop"
       >
         Shop our Inventory
       </Btn>
