@@ -1,5 +1,6 @@
 ﻿import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
+import HomeMobile from "./components/HomeMobile";
 
 /*
  * Home page, rebuilt from page 1 of the "TILED HOUSE" Canva design.
@@ -165,14 +166,18 @@ function Btn({
 export default function Home() {
   return (
     <main id="home" className="flex flex-col" style={DM}>
-      <TopNav />
-      <Header />
-      <Hero />
-      <About />
-      <Staples />
-      <AllThingsTile />
-      <OneOfAKind />
-      <Section sec={TAIL} bg={COLORS.cream} />
+      {/* Phones get their own stacked layout; the scaled Canva layout is desktop/tablet only. */}
+      <HomeMobile />
+      <div className="hidden flex-col md:flex">
+        <TopNav />
+        <Header />
+        <Hero />
+        <About />
+        <Staples />
+        <AllThingsTile />
+        <OneOfAKind />
+        <Section sec={TAIL} bg={COLORS.cream} />
+      </div>
     </main>
   );
 }
