@@ -239,30 +239,6 @@ function Header() {
           />
         </h1>
       </Abs>
-      <Btn
-        sec={HEADER}
-        x={1103.8}
-        y={62.3}
-        w={189.2}
-        h={66}
-        bg={COLORS.rose}
-        color={COLORS.cream}
-        href="/shop"
-      >
-        View our Inventory
-      </Btn>
-      <Btn
-        sec={HEADER}
-        x={1103.8}
-        y={156.5}
-        w={196.2}
-        h={66}
-        bg={COLORS.rose}
-        color="#f7f4f0"
-        href="/custom"
-      >
-        Custom Design your own decor
-      </Btn>
     </Section>
   );
 }
