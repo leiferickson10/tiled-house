@@ -4,7 +4,6 @@ import CartLink from "./CartLink";
 const NAV = [
   { label: "HOME", href: "/" },
   { label: "SHOP", href: "/shop" },
-  { label: "DESIGNS", href: "/designs" },
   { label: "DESIGN YOUR OWN", href: "/custom" },
 ];
 

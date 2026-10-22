@@ -14,7 +14,7 @@ export default function CartView() {
       <div>
         <p className="text-lg text-[#4a1d31]/80">Your cart is empty.</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <PillLink href="/designs">Browse designs</PillLink>
+          <PillLink href="/shop">Shop coasters</PillLink>
           <PillLink href="/custom" outline>
             Design your own
           </PillLink>

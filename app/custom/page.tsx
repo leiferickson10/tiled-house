@@ -44,8 +44,8 @@ export default async function CustomPage({
               : "Pick from the glass tile colors we have in stock and paint your own 4-inch coaster, one tile at a time."}
           </p>
           <p className="mt-3 text-sm">
-            <Link href="/designs" className="underline underline-offset-4 hover:text-[#b15356]">
-              Or browse ready-made designs
+            <Link href="/shop" className="underline underline-offset-4 hover:text-[#b15356]">
+              Or shop ready-made coasters
             </Link>
           </p>
         </header>

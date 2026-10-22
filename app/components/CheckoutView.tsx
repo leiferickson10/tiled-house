@@ -49,8 +49,8 @@ export default function CheckoutView() {
     return (
       <p className="text-lg">
         Your cart is empty.{" "}
-        <Link href="/designs" className="font-bold underline underline-offset-4">
-          Browse designs
+        <Link href="/shop" className="font-bold underline underline-offset-4">
+          Shop coasters
         </Link>
       </p>
     );

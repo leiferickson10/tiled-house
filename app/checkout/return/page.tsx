@@ -80,7 +80,7 @@ export default async function ReturnPage({
           </p>
         )}
         <p>
-          <Link href="/designs" className="font-bold underline underline-offset-4">
+          <Link href="/shop" className="font-bold underline underline-offset-4">
             Keep shopping
           </Link>
         </p>
