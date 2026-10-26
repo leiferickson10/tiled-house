@@ -225,12 +225,12 @@ function Header() {
     <Section sec={HEADER} bg={COLORS.cream}>
       <Photo
         sec={HEADER}
-        src="/images/home/logo.jpg"
+        src="/images/home/logo-th.png"
         alt="Tiled House logo"
         x={23}
-        y={32}
+        y={28}
         w={261}
-        h={233}
+        h={241}
       />
       {/* Centered between the logo's right edge (284) and the page edge (1366). */}
       <Abs sec={HEADER} x={459} y={24} w={740} h={265}>

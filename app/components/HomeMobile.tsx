@@ -102,7 +102,7 @@ export default function HomeMobile() {
         style={{ background: COLORS.cream }}
       >
         <div className="w-[28%] shrink-0">
-          <Photo src="/images/home/logo.jpg" alt="Tiled House logo" w={261} h={233} />
+          <Photo src="/images/home/logo-th.png" alt="Tiled House logo" w={702} h={648} />
         </div>
         <h1 className="min-w-0 flex-1">
           <span className="sr-only">Tiled House</span>
