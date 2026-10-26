@@ -1,5 +1,6 @@
 ﻿import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
+import AboutGallery from "./components/AboutGallery";
 import HomeMobile from "./components/HomeMobile";
 
 /*
@@ -19,9 +20,8 @@ const NAV_H = 56;
 const HEADER: Sec = { top: 0, h: 314 };
 const HERO: Sec = { top: 314, h: 494 };
 const ABOUT: Sec = { top: 808, h: 726 };
-const STAPLES: Sec = { top: 1534, h: 795 };
 const TILES: Sec = { top: 2329, h: 836 };
-const PIECES: Sec = { top: 3165, h: 836 };
+const PIECES: Sec = { top: 3165, h: 768 };
 const TAIL: Sec = { top: 5509, h: 64 };
 
 const COLORS = {
@@ -173,7 +173,6 @@ export default function Home() {
         <Header />
         <Hero />
         <About />
-        <Staples />
         <AllThingsTile />
         <OneOfAKind />
         <Section sec={TAIL} bg={COLORS.cream} />
@@ -288,18 +287,10 @@ function About() {
           About Us
         </h2>
       </Abs>
-      <Btn
-        sec={ABOUT}
-        x={141.1}
-        y={1249.6}
-        w={284.2}
-        h={72.6}
-        bg="#ddcd71"
-        color="#a75e54"
-        href="/shop"
-      >
-        Shop our Inventory
-      </Btn>
+      {/* Centered between the heading's bottom (y 955) and the section's bottom (y 1534) */}
+      <Abs sec={ABOUT} x={60} y={1006} w={500}>
+        <AboutGallery sizes="37vw" />
+      </Abs>
       <Abs sec={ABOUT} x={603.7} y={1007.3} w={674.4}>
         <div
           style={{
@@ -348,92 +339,6 @@ function About() {
           </p>
         </div>
       </Abs>
-    </Section>
-  );
-}
-
-// Hand-drawn style wobble for the grid lines behind "the staples" section.
-function wobble(
-  from: [number, number],
-  to: [number, number],
-  seed: number,
-): string {
-  const steps = 18;
-  const pts: string[] = [];
-  for (let i = 0; i <= steps; i++) {
-    const t = i / steps;
-    const x = from[0] + (to[0] - from[0]) * t;
-    const y = from[1] + (to[1] - from[1]) * t;
-    const vertical = from[0] === to[0];
-    const off = Math.sin(i * 1.9 + seed) * 3.2;
-    pts.push(`${i === 0 ? "M" : "L"}${(vertical ? x + off : x).toFixed(1)} ${(vertical ? y : y + off).toFixed(1)}`);
-  }
-  return pts.join(" ");
-}
-
-const GRID_X = [80, 210, 335, 455, 563, 676];
-const GRID_Y = [105, 228, 350, 472, 592, 712];
-
-function Staples() {
-  return (
-    <Section sec={STAPLES} bg={COLORS.rose}>
-      <svg
-        className="absolute left-0 top-0 h-full"
-        style={{ width: pct(701, W) }}
-        viewBox="0 0 701 795"
-        preserveAspectRatio="none"
-        fill="none"
-        stroke="#7b3237"
-        strokeWidth={9}
-        strokeLinecap="round"
-        aria-hidden="true"
-      >
-        {GRID_X.map((x, i) => (
-          <path key={`v${x}`} d={wobble([x, -10], [x, 800], i * 1.3)} />
-        ))}
-        {GRID_Y.map((y, i) => (
-          <path key={`h${y}`} d={wobble([-10, y], [701, y], i * 2.1)} />
-        ))}
-      </svg>
-      <Photo
-        sec={STAPLES}
-        src="/images/home/staples-photo.jpg"
-        alt="Glass checkerboard tile coasters on linen"
-        x={793}
-        y={1661}
-        w={447}
-        h={572}
-      />
-      <Photo
-        sec={STAPLES}
-        src="/images/home/staples-coasters.jpg"
-        alt="Red glass tile coasters"
-        x={398}
-        y={1866}
-        w={314}
-        h={418}
-      />
-      <Abs sec={STAPLES} x={23.3} y={1672} w={650}>
-        <h2
-          className="whitespace-nowrap"
-          style={{ ...HEAVY, color: "#f7f4f0", fontSize: fs(71.5) }}
-        >
-          the staples
-          <br />
-          behind our name
-        </h2>
-      </Abs>
-      <Btn
-        sec={STAPLES}
-        x={61.2}
-        y={2066}
-        w={271.2}
-        h={61.1}
-        bg="#b7b387"
-        color="#ffffff"
-      >
-        Shop the Shore Shop.
-      </Btn>
     </Section>
   );
 }
@@ -515,54 +420,79 @@ function AllThingsTile() {
   );
 }
 
+const INVENTORY = [
+  { label: "COASTERS", src: "/images/home/inventory-coasters.jpg", alt: "Teal and gray glass tile coasters on a wooden table" },
+  { label: "TRAYS", src: "/images/home/inventory-trays.jpg", alt: "Colorful glass tile tray holding a perfume bottle and a ring dish" },
+  { label: "TABLES", src: "/images/home/inventory-tables.jpg", alt: "Tile-wrapped side tables beside a leafy plant" },
+  { label: "DECOR", src: "/images/home/inventory-decor.jpg", alt: "Square mosaic tile wall clock" },
+];
+
+// Matches the "Shop our Inventory" page of the TILED HOUSE Canva design:
+// four labeled photo columns, flush to the bottom of the section.
 function OneOfAKind() {
+  const colW = 319;
+  const gapX = (W - colW * 4) / 3;
   return (
     <Section id="shop" sec={PIECES} bg={COLORS.cream}>
-      <Abs sec={PIECES} x={44.6} y={3285.5} w={754.4}>
+      <Abs sec={PIECES} x={35.5} y={3208} w={760}>
         <h2
           className="whitespace-nowrap"
           style={{
             ...DISPLAY,
-            color: "#ddcd71",
-            fontSize: fs(45),
+            color: COLORS.rose,
+            fontSize: fs(48),
             lineHeight: 1.4,
           }}
         >
-          ONE-OF-A-KIND PIECES
+          SHOP OUR INVENTORY
         </h2>
       </Abs>
       <Btn
         sec={PIECES}
         x={827.3}
-        y={3309.8}
+        y={3213}
         w={227.4}
         h={58}
         bg="#ddcd71"
         color="#ac5725"
+        href="/shop"
       >
-        Shop our Tile Pieces
+        Shop our Inventory
       </Btn>
       <Btn
         sec={PIECES}
         x={1088.2}
-        y={3309.8}
+        y={3213}
         w={227.4}
-        h={66}
+        h={58}
         bg="#ddcd71"
         color="#ac5725"
         href="/custom"
       >
         Custom Design your Own!
       </Btn>
-      <Photo
-        sec={PIECES}
-        src="/images/home/gallery.jpg"
-        alt="Tile wall art, tile side tables, a tile clock and a tile cabinet"
-        x={0}
-        y={3435}
-        w={W}
-        h={566}
-      />
+      {INVENTORY.map((item, i) => {
+        const x = i * (colW + gapX);
+        return (
+          <div key={item.label}>
+            <Abs sec={PIECES} x={x} y={3347} w={colW}>
+              <h3
+                className="text-center"
+                style={{
+                  ...DISPLAY,
+                  color: "#ddcd71",
+                  fontSize: fs(38),
+                  lineHeight: 1.4,
+                  fontWeight: 400,
+                }}
+              >
+                {item.label}
+              </h3>
+            </Abs>
+            <Photo sec={PIECES} src={item.src} alt={item.alt} x={x} y={3395} w={colW} h={538} />
+          </div>
+        );
+      })}
     </Section>
   );
 }

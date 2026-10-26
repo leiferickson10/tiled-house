@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AboutGallery from "./AboutGallery";
 import type { CSSProperties, ReactNode } from "react";
 
 /*
@@ -69,6 +70,13 @@ function Photo({
   );
 }
 
+const INVENTORY = [
+  { label: "COASTERS", src: "/images/home/inventory-coasters.jpg", alt: "Teal and gray glass tile coasters on a wooden table" },
+  { label: "TRAYS", src: "/images/home/inventory-trays.jpg", alt: "Colorful glass tile tray holding a perfume bottle and a ring dish" },
+  { label: "TABLES", src: "/images/home/inventory-tables.jpg", alt: "Tile-wrapped side tables beside a leafy plant" },
+  { label: "DECOR", src: "/images/home/inventory-decor.jpg", alt: "Square mosaic tile wall clock" },
+];
+
 export default function HomeMobile() {
   return (
     <div className="md:hidden" style={DM}>
@@ -127,6 +135,9 @@ export default function HomeMobile() {
         <h2 className="text-[56px]" style={{ ...HEAVY, color: COLORS.rose }}>
           About Us
         </h2>
+        <div className="mt-6">
+          <AboutGallery sizes="100vw" />
+        </div>
         <div className="mt-6 space-y-5 text-[17px] leading-[1.45]">
           <p>
             <strong>Tiled House</strong> is a Home Decor shop thats all about
@@ -169,39 +180,6 @@ export default function HomeMobile() {
           <p className="text-center italic">
             Create something you love and make it yours
           </p>
-        </div>
-        <div className="mt-8">
-          <Cta href="/shop" bg="#ddcd71" color="#a75e54">
-            Shop our Inventory
-          </Cta>
-        </div>
-      </section>
-
-      {/* The staples */}
-      <section className="px-6 py-10" style={{ background: COLORS.rose }}>
-        <h2 className="text-[34px]" style={{ ...HEAVY, color: "#f7f4f0" }}>
-          the staples
-          <br />
-          behind our name
-        </h2>
-        <div className="mt-6 grid grid-cols-[1.4fr_1fr] items-end gap-3">
-          <Photo
-            src="/images/home/staples-photo.jpg"
-            alt="Glass checkerboard tile coasters on linen"
-            w={447}
-            h={572}
-          />
-          <Photo
-            src="/images/home/staples-coasters.jpg"
-            alt="Red glass tile coasters"
-            w={314}
-            h={418}
-          />
-        </div>
-        <div className="mt-6">
-          <Cta href="#" bg="#b7b387" color="#ffffff">
-            Shop the Shore Shop.
-          </Cta>
         </div>
       </section>
 
@@ -254,7 +232,7 @@ export default function HomeMobile() {
         </div>
       </section>
 
-      {/* One-of-a-kind pieces */}
+      {/* Shop our inventory (matches the Canva "Shop our Inventory" page) */}
       <section
         id="shop-mobile"
         className="pt-10"
@@ -262,25 +240,30 @@ export default function HomeMobile() {
       >
         <h2
           className="px-6 text-center text-[30px] leading-[1.3]"
-          style={{ ...DISPLAY, color: "#ddcd71" }}
+          style={{ ...DISPLAY, color: COLORS.rose }}
         >
-          ONE-OF-A-KIND PIECES
+          SHOP OUR INVENTORY
         </h2>
         <div className="mt-6 space-y-3 px-6">
-          <Cta href="#" bg="#ddcd71" color="#ac5725">
-            Shop our Tile Pieces
+          <Cta href="/shop" bg="#ddcd71" color="#ac5725">
+            Shop our Inventory
           </Cta>
           <Cta href="/custom" bg="#ddcd71" color="#ac5725">
             Custom Design your Own!
           </Cta>
         </div>
-        <div className="mt-8">
-          <Photo
-            src="/images/home/gallery.jpg"
-            alt="Tile wall art, tile side tables, a tile clock and a tile cabinet"
-            w={1366}
-            h={566}
-          />
+        <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-6 px-6 pb-10">
+          {INVENTORY.map((item) => (
+            <div key={item.label}>
+              <h3
+                className="mb-2 text-center text-[22px] leading-[1.3]"
+                style={{ ...DISPLAY, color: "#ddcd71", fontWeight: 400 }}
+              >
+                {item.label}
+              </h3>
+              <Photo src={item.src} alt={item.alt} w={638} h={1075} />
+            </div>
+          ))}
         </div>
       </section>
     </div>
