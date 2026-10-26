@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Fraunces, Inter, Marcellus } from "next/font/google";
 import "./globals.css";
+import SiteFooter from "./components/SiteFooter";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col font-sans bg-plaster text-ink">
         {children}
+        <SiteFooter />
       </body>
     </html>
   );
