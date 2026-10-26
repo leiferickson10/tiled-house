@@ -2,6 +2,8 @@
 import type { CSSProperties, ReactNode } from "react";
 import AboutGallery from "./components/AboutGallery";
 import HomeMobile from "./components/HomeMobile";
+import InventoryTile from "./components/InventoryTile";
+import TileOverlay from "./components/TileOverlay";
 
 /*
  * Home page, rebuilt from page 1 of the "TILED HOUSE" Canva design.
@@ -421,7 +423,7 @@ function AllThingsTile() {
 }
 
 const INVENTORY = [
-  { label: "COASTERS", src: "/images/home/inventory-coasters.jpg", alt: "Teal and gray glass tile coasters on a wooden table" },
+  { label: "COASTERS", href: "/shop", src: "/images/home/inventory-coasters.jpg", alt: "Teal and gray glass tile coasters on a wooden table" },
   { label: "TRAYS", src: "/images/home/inventory-trays.jpg", alt: "Colorful glass tile tray holding a perfume bottle and a ring dish" },
   { label: "TABLES", src: "/images/home/inventory-tables.jpg", alt: "Tile-wrapped side tables beside a leafy plant" },
   { label: "DECOR", src: "/images/home/inventory-decor.jpg", alt: "Square mosaic tile wall clock" },
@@ -471,26 +473,49 @@ function OneOfAKind() {
       >
         Custom Design your Own!
       </Btn>
+      <Abs sec={PIECES} x={35.5} y={3275} w={760}>
+        <p style={{ ...DM, color: COLORS.rose, fontSize: fs(22), lineHeight: 1.4 }}>
+          New pieces are on the way. Tap one to get early access.
+        </p>
+      </Abs>
       {INVENTORY.map((item, i) => {
         const x = i * (colW + gapX);
+        // Title and photo share one link/button so either one is clickable.
         return (
-          <div key={item.label}>
-            <Abs sec={PIECES} x={x} y={3347} w={colW}>
+          <Abs key={item.label} sec={PIECES} x={x} y={3347} w={colW} h={586}>
+            <InventoryTile label={item.label} href={item.href}>
               <h3
-                className="text-center"
+                className="text-center transition-opacity group-hover:underline group-hover:opacity-70"
                 style={{
                   ...DISPLAY,
                   color: "#ddcd71",
                   fontSize: fs(38),
-                  lineHeight: 1.4,
+                  lineHeight: fs(48),
                   fontWeight: 400,
                 }}
               >
                 {item.label}
               </h3>
-            </Abs>
-            <Photo sec={PIECES} src={item.src} alt={item.alt} x={x} y={3395} w={colW} h={538} />
-          </div>
+              <div
+                className="relative overflow-hidden"
+                style={{ aspectRatio: "319 / 538" }}
+              >
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  sizes="25vw"
+                  className="object-fill transition-transform duration-300 group-hover:scale-105"
+                />
+                <TileOverlay
+                  badge={item.href ? undefined : "Coming soon"}
+                  caption={item.href ? "Shop now ➔" : "Be the first to know ➔"}
+                  badgeSize={fs(14)}
+                  captionSize={fs(19)}
+                />
+              </div>
+            </InventoryTile>
+          </Abs>
         );
       })}
     </Section>
