@@ -125,6 +125,54 @@ export default function HomeMobile() {
         />
       </div>
 
+      {/* Shop our inventory (matches the Canva "Shop our Inventory" page) */}
+      <section
+        id="shop-mobile"
+        className="pt-10"
+        style={{ background: COLORS.cream }}
+      >
+        <h2
+          className="px-6 text-center text-[30px] leading-[1.3]"
+          style={{ ...DISPLAY, color: COLORS.rose }}
+        >
+          SHOP OUR INVENTORY
+        </h2>
+        <p className="mt-3 px-6 text-center text-[16px]" style={{ color: COLORS.rose }}>
+          New pieces are on the way. Tap one to get early access.
+        </p>
+        <div className="mt-6 space-y-3 px-6">
+          <Cta href="/shop" bg="#ddcd71" color="#ac5725">
+            Shop our Inventory
+          </Cta>
+          <Cta href="/custom" bg="#ddcd71" color="#ac5725">
+            Custom Design your Own!
+          </Cta>
+        </div>
+        <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-6 px-6 pb-10">
+          {INVENTORY.map((item) => (
+            <div key={item.label}>
+              <InventoryTile label={item.label} href={item.href}>
+                <h3
+                  className="mb-2 text-center text-[22px] leading-[1.3] group-active:opacity-70"
+                  style={{ ...DISPLAY, color: "#ddcd71", fontWeight: 400 }}
+                >
+                  {item.label}
+                </h3>
+                <div className="relative overflow-hidden">
+                  <Photo src={item.src} alt={item.alt} w={638} h={1075} />
+                  <TileOverlay
+                    badge={item.href ? undefined : "Coming soon"}
+                    caption={item.href ? "Shop now ➔" : "Be the first to know ➔"}
+                    badgeSize="10px"
+                    captionSize="12px"
+                  />
+                </div>
+              </InventoryTile>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* About */}
       <section
         className="px-6 py-10"
@@ -182,54 +230,6 @@ export default function HomeMobile() {
           <p className="text-center italic">
             Create something you love and make it yours
           </p>
-        </div>
-      </section>
-
-      {/* Shop our inventory (matches the Canva "Shop our Inventory" page) */}
-      <section
-        id="shop-mobile"
-        className="pt-10"
-        style={{ background: COLORS.cream }}
-      >
-        <h2
-          className="px-6 text-center text-[30px] leading-[1.3]"
-          style={{ ...DISPLAY, color: COLORS.rose }}
-        >
-          SHOP OUR INVENTORY
-        </h2>
-        <p className="mt-3 px-6 text-center text-[16px]" style={{ color: COLORS.rose }}>
-          New pieces are on the way. Tap one to get early access.
-        </p>
-        <div className="mt-6 space-y-3 px-6">
-          <Cta href="/shop" bg="#ddcd71" color="#ac5725">
-            Shop our Inventory
-          </Cta>
-          <Cta href="/custom" bg="#ddcd71" color="#ac5725">
-            Custom Design your Own!
-          </Cta>
-        </div>
-        <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-6 px-6 pb-10">
-          {INVENTORY.map((item) => (
-            <div key={item.label}>
-              <InventoryTile label={item.label} href={item.href}>
-                <h3
-                  className="mb-2 text-center text-[22px] leading-[1.3] group-active:opacity-70"
-                  style={{ ...DISPLAY, color: "#ddcd71", fontWeight: 400 }}
-                >
-                  {item.label}
-                </h3>
-                <div className="relative overflow-hidden">
-                  <Photo src={item.src} alt={item.alt} w={638} h={1075} />
-                  <TileOverlay
-                    badge={item.href ? undefined : "Coming soon"}
-                    caption={item.href ? "Shop now ➔" : "Be the first to know ➔"}
-                    badgeSize="10px"
-                    captionSize="12px"
-                  />
-                </div>
-              </InventoryTile>
-            </div>
-          ))}
         </div>
       </section>
     </div>

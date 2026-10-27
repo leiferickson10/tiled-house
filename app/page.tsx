@@ -173,9 +173,9 @@ export default function Home() {
         <TopNav />
         <Header />
         <Hero />
-        <About />
         <OneOfAKind />
         <Section sec={TAIL} bg={COLORS.cream} />
+        <About />
       </div>
     </main>
   );
