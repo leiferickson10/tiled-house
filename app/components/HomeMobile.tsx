@@ -106,7 +106,7 @@ export default function HomeMobile() {
         </div>
         <h1 className="min-w-0 flex-1">
           <span className="sr-only">Tiled House</span>
-          <Photo src="/images/home/wordmark.png" alt="" w={740} h={265} />
+          <Photo src="/images/home/wordmark.png" alt="" w={988} h={229} />
         </h1>
       </header>
 
