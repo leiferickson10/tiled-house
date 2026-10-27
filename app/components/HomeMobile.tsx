@@ -185,55 +185,6 @@ export default function HomeMobile() {
         </div>
       </section>
 
-      {/* All things tile */}
-      <section className="px-6 py-10" style={{ background: COLORS.gold }}>
-        <h2
-          className="text-center text-[34px] leading-[1.3]"
-          style={{ ...DISPLAY, color: "#ffffff" }}
-        >
-          ALL THINGS TILE!
-        </h2>
-        <div className="mt-6 grid grid-cols-2 gap-3">
-          <Photo
-            src="/images/home/tile-1.jpg"
-            alt="Mosaic tile tray with a candle and plant"
-            w={349}
-            h={340}
-          />
-          <Photo
-            src="/images/home/tile-2.jpg"
-            alt="Green mosaic tile picture frame"
-            w={349}
-            h={340}
-          />
-          <Photo
-            src="/images/home/tile-3.jpg"
-            alt="Tile serving tray with a cup of tea"
-            w={349}
-            h={340}
-          />
-          <Photo
-            src="/images/home/tile-4.jpg"
-            alt="Green and white tile coasters"
-            w={350}
-            h={340}
-          />
-        </div>
-        <div className="mx-auto mt-3 w-2/3">
-          <Photo
-            src="/images/home/tile-left.jpg"
-            alt="Mosaic tile coasters on a wooden table"
-            w={262}
-            h={466}
-          />
-        </div>
-        <div className="mt-6">
-          <Cta href="#shop-mobile" bg={COLORS.cream} color={COLORS.gold}>
-            Shop our Tile Pieces
-          </Cta>
-        </div>
-      </section>
-
       {/* Shop our inventory (matches the Canva "Shop our Inventory" page) */}
       <section
         id="shop-mobile"

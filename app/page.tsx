@@ -22,7 +22,6 @@ const NAV_H = 56;
 const HEADER: Sec = { top: 0, h: 314 };
 const HERO: Sec = { top: 314, h: 494 };
 const ABOUT: Sec = { top: 808, h: 726 };
-const TILES: Sec = { top: 2329, h: 836 };
 const PIECES: Sec = { top: 3165, h: 768 };
 const TAIL: Sec = { top: 5509, h: 64 };
 
@@ -175,7 +174,6 @@ export default function Home() {
         <Header />
         <Hero />
         <About />
-        <AllThingsTile />
         <OneOfAKind />
         <Section sec={TAIL} bg={COLORS.cream} />
       </div>
@@ -341,83 +339,6 @@ function About() {
           </p>
         </div>
       </Abs>
-    </Section>
-  );
-}
-
-function AllThingsTile() {
-  return (
-    <Section sec={TILES} bg={COLORS.gold}>
-      <Abs sec={TILES} x={58.6} y={2438} w={371}>
-        <h2
-          className="whitespace-nowrap text-center"
-          style={{
-            ...DISPLAY,
-            color: "#ffffff",
-            fontSize: fs(42.67),
-            lineHeight: 1.3,
-          }}
-        >
-          ALL THINGS TILE!
-        </h2>
-      </Abs>
-      <Photo
-        sec={TILES}
-        src="/images/home/tile-left.jpg"
-        alt="Mosaic tile coasters on a wooden table"
-        x={65}
-        y={2514}
-        w={262}
-        h={466}
-      />
-      <Btn
-        sec={TILES}
-        x={350.6}
-        y={2514.3}
-        w={227.4}
-        h={58}
-        bg={COLORS.cream}
-        color={COLORS.gold}
-        href="#shop"
-      >
-        Shop our Tile Pieces
-      </Btn>
-      <Photo
-        sec={TILES}
-        src="/images/home/tile-1.jpg"
-        alt="Mosaic tile tray with a candle and plant"
-        x={597}
-        y={2400}
-        w={349}
-        h={340}
-      />
-      <Photo
-        sec={TILES}
-        src="/images/home/tile-2.jpg"
-        alt="Green mosaic tile picture frame"
-        x={958}
-        y={2400}
-        w={349}
-        h={340}
-      />
-      <Photo
-        sec={TILES}
-        src="/images/home/tile-3.jpg"
-        alt="Tile serving tray with a cup of tea"
-        x={597}
-        y={2751}
-        w={349}
-        h={340}
-      />
-      <Photo
-        sec={TILES}
-        src="/images/home/tile-4.jpg"
-        alt="Green and white tile coasters"
-        x={957}
-        y={2751}
-        w={350}
-        h={340}
-      />
     </Section>
   );
 }
