@@ -93,6 +93,9 @@ export default function HomeMobile() {
         <a href="/shop" className="text-white/70">
           SHOP
         </a>
+        <a href="#about-mobile" className="text-white/70">
+          ABOUT US
+        </a>
       </nav>
 
       {/* Header: logo + wordmark */}
@@ -175,6 +178,7 @@ export default function HomeMobile() {
 
       {/* About */}
       <section
+        id="about-mobile"
         className="px-6 py-10"
         style={{
           background:

@@ -185,6 +185,7 @@ export default function Home() {
 const NAV = [
   { label: "HOME", href: "#home", active: true },
   { label: "SHOP", href: "/shop", active: false },
+  { label: "ABOUT US", href: "#about", active: false },
 ];
 
 function TopNav() {
@@ -276,6 +277,7 @@ function About() {
   const gap = { marginBottom: fs(27.7) };
   return (
     <Section
+      id="about"
       sec={ABOUT}
       bg="linear-gradient(to top right, #b57a50 0%, #cd8e63 45%, #dea781 100%)"
     >
