@@ -117,7 +117,7 @@ export default function HomeMobile() {
       >
         <Image
           src="/images/home/hero.jpg"
-          alt="Glass tile coasters with pink carnations"
+          alt="Glass tile coasters in blue, red and sage beside orange leaves"
           fill
           sizes="100vw"
           className="object-cover"
