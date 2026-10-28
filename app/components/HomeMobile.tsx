@@ -1,5 +1,7 @@
 import Image from "next/image";
 import AboutSection from "./AboutSection";
+import HomeNav from "./HomeNav";
+import MeetCreators from "./MeetCreators";
 import InventorySection from "./InventorySection";
 import type { CSSProperties } from "react";
 
@@ -46,20 +48,14 @@ export default function HomeMobile() {
   return (
     <div className="md:hidden" style={DM}>
       {/* Nav */}
-      <nav
-        className="flex h-14 items-center justify-center gap-8 text-lg"
-        style={{ background: COLORS.gold }}
-      >
-        <a href="#home-mobile" className="text-white">
-          HOME
-        </a>
-        <a href="/shop" className="text-white/70">
-          SHOP
-        </a>
-        <a href="#about-mobile" className="text-white/70">
-          ABOUT US
-        </a>
-      </nav>
+      <HomeNav
+        links={[
+          { label: "HOME", href: "#home-mobile", active: true },
+          { label: "SHOP", href: "/shop" },
+          { label: "ABOUT US", href: "#about-mobile" },
+          { label: "MEET THE CREATORS", href: "#meet-the-creators-mobile" },
+        ]}
+      />
 
       {/* Header: logo + wordmark */}
       <header
@@ -93,6 +89,7 @@ export default function HomeMobile() {
       <InventorySection id="shop-mobile" />
 
       <AboutSection id="about-mobile" shopHref="#shop-mobile" gallerySizes="100vw" />
+      <MeetCreators id="meet-the-creators-mobile" />
     </div>
   );
 }

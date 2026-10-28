@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans, Fraunces, Inter, Marcellus } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, Fraunces, Inter, Marcellus, Yellowtail } from "next/font/google";
 import "./globals.css";
 import SiteFooter from "./components/SiteFooter";
 import { SITE_NAME, SITE_URL } from "./lib/site";
@@ -19,6 +19,12 @@ const dmSans = DM_Sans({
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const yellowtail = Yellowtail({
+  variable: "--font-yellowtail",
   subsets: ["latin"],
   weight: "400",
 });
@@ -59,7 +65,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} ${dmSans.variable} ${marcellus.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${inter.variable} ${dmSans.variable} ${marcellus.variable} ${cormorant.variable} ${yellowtail.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-plaster text-ink">
         {children}

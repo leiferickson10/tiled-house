@@ -4,6 +4,8 @@ import type { CSSProperties, ReactNode } from "react";
 import JsonLd from "./components/JsonLd";
 import { SITE_NAME, SITE_URL, absoluteUrl } from "./lib/site";
 import AboutSection from "./components/AboutSection";
+import HomeNav from "./components/HomeNav";
+import MeetCreators from "./components/MeetCreators";
 import HomeMobile from "./components/HomeMobile";
 import InventorySection from "./components/InventorySection";
 
@@ -47,7 +49,6 @@ const W = 1366;
 
 type Sec = { top: number; h: number };
 
-const NAV_H = 56;
 const HEADER: Sec = { top: 0, h: 314 };
 const HERO: Sec = { top: 314, h: 494 };
 const TAIL: Sec = { top: 5509, h: 64 };
@@ -157,54 +158,25 @@ export default function Home() {
       {/* Phones get their own stacked layout; the scaled Canva layout is desktop/tablet only. */}
       <HomeMobile />
       <div className="hidden flex-col md:flex">
-        <TopNav />
+        <HomeNav links={NAV} />
         <Header />
         <Hero />
         <InventorySection id="shop" />
         <Section sec={TAIL} bg={COLORS.cream} />
         <AboutSection id="about" shopHref="#shop" gallerySizes="40vw" />
+        <MeetCreators id="meet-the-creators" />
       </div>
     </main>
   );
 }
 
-// "Studio Tile" and "Tile Cart" tabs intentionally removed; the rest are centered.
+// "Studio Tile" and "Tile Cart" tabs intentionally removed.
 const NAV = [
   { label: "HOME", href: "#home", active: true },
-  { label: "SHOP", href: "/shop", active: false },
-  { label: "ABOUT US", href: "#about", active: false },
+  { label: "SHOP", href: "/shop" },
+  { label: "ABOUT US", href: "#about" },
+  { label: "MEET THE CREATORS", href: "#meet-the-creators" },
 ];
-
-function TopNav() {
-  return (
-    <nav
-      className="w-full"
-      style={{
-        background: COLORS.gold,
-        containerType: "inline-size",
-      }}
-    >
-      <div
-        className="flex items-center justify-center"
-        style={{ height: fs(NAV_H), gap: fs(34) }}
-      >
-        {NAV.map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            style={{
-              ...DM,
-              fontSize: fs(23.5),
-              color: item.active ? "#ffffff" : "rgba(255,255,255,0.62)",
-            }}
-          >
-            {item.label}
-          </a>
-        ))}
-      </div>
-    </nav>
-  );
-}
 
 function Header() {
   return (
