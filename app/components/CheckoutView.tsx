@@ -10,7 +10,10 @@ import { formatUsd, resolveItem, shippingFor } from "../lib/shop";
 import CoasterThumb from "./CoasterThumb";
 
 // Created once at module scope so Stripe.js isn't re-loaded on every render.
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "");
+// A missing key makes Stripe.js throw and the payment box renders blank with no
+// error, so it's checked up front and surfaced in the UI instead.
+const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+const stripePromise = publishableKey ? loadStripe(publishableKey) : null;
 
 // Brand colors from tiledhouse.com, used for the accent strip on the summary.
 const BRAND_STRIP = ["#b15356", "#ac5725", "#ddcd71", "#b7b386", "#90a9c3", "#9c708a"];
@@ -86,9 +89,15 @@ export default function CheckoutView() {
 
       <div className="grid items-start gap-8 lg:grid-cols-[1fr_21rem]">
         <div className="order-2 overflow-hidden rounded-lg border-t-4 border-[#ddcd71] bg-white p-4 shadow-sm sm:p-6 lg:order-1">
-          <EmbeddedCheckoutProvider stripe={stripePromise} options={{ fetchClientSecret }}>
-            <EmbeddedCheckout />
-          </EmbeddedCheckoutProvider>
+          {stripePromise ? (
+            <EmbeddedCheckoutProvider stripe={stripePromise} options={{ fetchClientSecret }}>
+              <EmbeddedCheckout />
+            </EmbeddedCheckoutProvider>
+          ) : (
+            <p role="alert" className="text-[#b15356]">
+              Checkout is temporarily unavailable. Please try again soon.
+            </p>
+          )}
         </div>
 
         <aside className="order-1 rounded-lg bg-[#f3ede3] p-6 shadow-sm lg:sticky lg:top-6 lg:order-2">
