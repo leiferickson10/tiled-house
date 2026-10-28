@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { DM_Sans, Fraunces, Inter, Marcellus } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, Fraunces, Inter, Marcellus } from "next/font/google";
 import "./globals.css";
 import SiteFooter from "./components/SiteFooter";
+import { SITE_NAME, SITE_URL } from "./lib/site";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -12,8 +13,14 @@ const fraunces = Fraunces({
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["300", "400", "700"],
   style: ["normal", "italic"],
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 const marcellus = Marcellus({
@@ -28,16 +35,31 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Tiled House — A Home Decor Shop",
   description:
     "One-of-a-kind ceramics, tile pieces, and home decor. Shop the collection.",
+  openGraph: {
+    siteName: SITE_NAME,
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/images/home/hero.jpg",
+        width: 2708,
+        height: 979,
+        alt: "Handmade glass tile coasters in blue, red and sage green beside orange leaves",
+      },
+    ],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} ${dmSans.variable} ${marcellus.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${inter.variable} ${dmSans.variable} ${marcellus.variable} ${cormorant.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-plaster text-ink">
         {children}

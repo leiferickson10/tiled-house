@@ -2,13 +2,54 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "../components/PageShell";
 import ReadyMadeShop from "../components/ReadyMadeShop";
+import JsonLd from "../components/JsonLd";
 import ShopTabs from "../components/ShopTabs";
-import { COLOR_HEX, READY_MADE, colorCounts, colorsOf } from "../lib/coasters";
+import {
+  COLOR_HEX,
+  READY_MADE,
+  colorCounts,
+  colorsOf,
+  readyMadePhoto,
+} from "../lib/coasters";
+import { READY_MADE_PRICE_CENTS } from "../lib/shop";
+import { SITE_NAME, absoluteUrl } from "../lib/site";
 
 export const metadata: Metadata = {
   title: "Shop Glass Tile Coasters — Tiled House",
   description:
     "Handmade glass tile coasters in checkerboard color combinations. Filter by color, or design your own.",
+  alternates: { canonical: "/shop" },
+};
+
+// Every ready-made coaster as a schema.org Product, so search engines can show
+// the name, photo and price. Prices come from the same constant the cart uses.
+const price = (READY_MADE_PRICE_CENTS / 100).toFixed(2);
+const productsJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Handmade glass tile coasters",
+  itemListElement: READY_MADE.map((c, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "Product",
+      name: `${c.name} Glass Tile Coaster`,
+      sku: c.slug,
+      description: `Handmade 4" x 4" glass mosaic tile coaster in ${c.colors.join(" and ")}.`,
+      image: absoluteUrl(readyMadePhoto(c.slug)),
+      color: c.colors.join(" / "),
+      brand: { "@type": "Brand", name: SITE_NAME },
+      offers: {
+        "@type": "Offer",
+        url: absoluteUrl("/shop"),
+        price,
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        itemCondition: "https://schema.org/NewCondition",
+        seller: { "@type": "Organization", name: SITE_NAME },
+      },
+    },
+  })),
 };
 
 export default async function ShopPage({
@@ -30,6 +71,7 @@ export default async function ShopPage({
 
   return (
     <PageShell current="/shop" title="Shop">
+      <JsonLd data={productsJsonLd} />
       <p className="-mt-4 mb-8 max-w-2xl text-lg text-[#4a1d31]/80">
         Handmade 4&Prime; coasters made from glass mosaic tile. Pick a favorite
         below, or{" "}

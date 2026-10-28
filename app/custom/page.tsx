@@ -1,13 +1,36 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import CoasterDesigner from "../components/CoasterDesigner";
+import JsonLd from "../components/JsonLd";
 import SiteNav from "../components/SiteNav";
 import { designById } from "../lib/designs";
+import { unitPriceCents } from "../lib/shop";
+import { SITE_NAME, absoluteUrl } from "../lib/site";
 
 export const metadata: Metadata = {
   title: "Design Your Own Coaster — Tiled House",
   description:
     "Design a custom glass tile coaster. Pick from our in-stock glass mosaic colors and paint a 4x4 tile design.",
+  alternates: { canonical: "/custom" },
+};
+
+const customProductJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Custom Glass Tile Coaster",
+  description:
+    'A handmade 4" x 4" glass mosaic coaster in your own color design, painted one tile at a time in our designer.',
+  image: absoluteUrl("/images/coasters/pearl-brandied-melon.jpg"),
+  brand: { "@type": "Brand", name: SITE_NAME },
+  offers: {
+    "@type": "Offer",
+    url: absoluteUrl("/custom"),
+    price: (unitPriceCents([]) / 100).toFixed(2),
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+    itemCondition: "https://schema.org/NewCondition",
+    seller: { "@type": "Organization", name: SITE_NAME },
+  },
 };
 
 export default async function CustomPage({
@@ -24,6 +47,7 @@ export default async function CustomPage({
       style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
     >
       <SiteNav current="/custom" />
+      <JsonLd data={customProductJsonLd} />
 
       <div className="mx-auto w-full max-w-6xl px-6 py-12 sm:px-10 sm:py-16">
         <header className="mb-10 max-w-2xl">

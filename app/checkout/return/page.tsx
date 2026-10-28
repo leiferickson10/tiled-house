@@ -8,7 +8,9 @@ import { getStripe } from "../../lib/stripe";
 
 export const metadata: Metadata = {
   title: "Order Confirmation — Tiled House",
-  robots: { index: false },
+  description:
+    "Thank you for your order. Your handmade glass tile coasters from Tiled House are on the way.",
+  alternates: { canonical: "/checkout/return" },
 };
 
 export default async function ReturnPage({

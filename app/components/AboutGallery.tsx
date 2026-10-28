@@ -12,14 +12,15 @@ import { useEffect, useRef, useState } from "react";
  */
 
 type Slide =
-  | { kind: "photo"; src: string; alt: string }
+  | { kind: "photo"; src: string; alt: string; fit: "cover" | "contain" }
   | { kind: "video"; src: string; poster: string; label: string };
 
 const SLIDES: Slide[] = [
   {
     kind: "photo",
-    src: "/images/about/gallery-1-coaster.webp",
-    alt: "Glass tile coaster under a cup of coffee on a wooden table",
+    src: "/images/all-things-tile.png",
+    alt: "Three blue glass tile coasters on a wood board with the hand-drawn text all things tile",
+    fit: "cover",
   },
   {
     kind: "video",
@@ -31,6 +32,7 @@ const SLIDES: Slide[] = [
     kind: "photo",
     src: "/images/about/gallery-3-diy-box.webp",
     alt: "Tiled House house sticker on a kraft shipping box",
+    fit: "contain",
   },
 ];
 
@@ -38,7 +40,13 @@ const PHOTO_MS = 6000;
 // Safety net so a video that can't play never freezes the rotation.
 const VIDEO_MAX_MS = 20000;
 
-export default function AboutGallery({ sizes }: { sizes: string }) {
+export default function AboutGallery({
+  sizes,
+  aspect = "500 / 440",
+}: {
+  sizes: string;
+  aspect?: string;
+}) {
   const [index, setIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -66,7 +74,7 @@ export default function AboutGallery({ sizes }: { sizes: string }) {
       aria-roledescription="carousel"
       aria-label="Tiled House photos"
     >
-      <div className="relative w-full" style={{ aspectRatio: "500 / 440" }}>
+      <div className="relative w-full" style={{ aspectRatio: aspect }}>
         {SLIDES.map((slide, i) => (
           <div
             key={i}
@@ -80,7 +88,7 @@ export default function AboutGallery({ sizes }: { sizes: string }) {
                 alt={slide.alt}
                 fill
                 sizes={sizes}
-                className="object-cover"
+                className={slide.fit === "cover" ? "object-cover" : "object-contain"}
                 priority={i === 0}
               />
             ) : (

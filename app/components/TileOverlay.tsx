@@ -39,8 +39,8 @@ export default function TileOverlay({
         className="absolute bottom-[4%] left-1/2 -translate-x-1/2 whitespace-nowrap transition-transform group-hover:scale-105"
         style={{
           ...DM,
-          background: "#ddcd71",
-          color: "#ac5725",
+          background: "#B34F58",
+          color: "#fff",
           fontSize: captionSize,
           padding: "0.6em 1.2em",
           boxShadow: "0 2px 8px rgba(0,0,0,0.18)",

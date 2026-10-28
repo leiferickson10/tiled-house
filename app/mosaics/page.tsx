@@ -8,7 +8,8 @@ import { MOSAICS, mosaicPhoto } from "../lib/mosaics";
 export const metadata: Metadata = {
   title: "Glass Tile Mosaics — Tiled House",
   description:
-    "Mixed-color glass tile mosaics in soft blues, greens and clay tones.",
+    "Handmade mixed-color glass tile mosaics in soft blues, sage greens and clay tones. Sixteen tiles per piece, no two rows alike.",
+  alternates: { canonical: "/mosaics" },
 };
 
 export default function MosaicsPage() {
