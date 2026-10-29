@@ -173,7 +173,7 @@ export default function Home() {
 // "Studio Tile" and "Tile Cart" tabs intentionally removed.
 const NAV = [
   { label: "HOME", href: "#home", active: true },
-  { label: "SHOP", href: "/shop" },
+  { label: "SHOP", href: "/shop", cta: true },
   { label: "ABOUT US", href: "#about" },
   { label: "MEET THE CREATORS", href: "#meet-the-creators" },
 ];

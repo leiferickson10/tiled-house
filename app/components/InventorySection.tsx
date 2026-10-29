@@ -15,10 +15,10 @@ const DM = { fontFamily: "var(--font-dm-sans), sans-serif" } as const;
 const ROSE = "#B04F57";
 
 const INVENTORY = [
-  { label: "COASTERS", href: "/shop", src: "/images/home/inventory-coasters.jpg", alt: "Teal and gray glass tile coasters on a wooden table" },
-  { label: "TRAYS", src: "/images/home/inventory-trays.jpg", alt: "Colorful glass tile tray holding a perfume bottle and a ring dish" },
-  { label: "TABLES", src: "/images/home/inventory-tables.jpg", alt: "Tile-wrapped side tables beside a leafy plant" },
-  { label: "DECOR", src: "/images/home/inventory-decor.jpg", alt: "Square mosaic tile wall clock" },
+  { label: "COASTERS", href: "/shop", src: "/images/home/inventory-coasters.jpg", alt: "Blue and red glass tile coasters on stone beside a bowl of lemons" },
+  { label: "TRAYS", src: "/images/home/inventory-trays.jpg", alt: "Glass tile tray holding a lit candle and a scalloped jewelry dish" },
+  { label: "TABLES", src: "/images/home/inventory-tables.jpg", alt: "Tall green and cream striped tile side table" },
+  { label: "DECOR", src: "/images/home/inventory-decor.jpg", alt: "Pink and cream square mosaic tile wall clock" },
 ];
 
 export default function InventorySection({ id }: { id: string }) {

@@ -51,7 +51,7 @@ export default function HomeMobile() {
       <HomeNav
         links={[
           { label: "HOME", href: "#home-mobile", active: true },
-          { label: "SHOP", href: "/shop" },
+          { label: "SHOP", href: "/shop", cta: true },
           { label: "ABOUT US", href: "#about-mobile" },
           { label: "MEET THE CREATORS", href: "#meet-the-creators-mobile" },
         ]}
