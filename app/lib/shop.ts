@@ -131,6 +131,48 @@ export function shippingFor(subtotalCents: number): number {
   return SHIPPING_CENTS;
 }
 
+/** Buy 3, get 1 free: every Nth coaster (the cheapest ones) is free. */
+export const FREE_EVERY_NTH = 4;
+/** Carts with this many coasters or fewer get the small-order percentage off. */
+export const SMALL_ORDER_MAX_QTY = 2;
+export const SMALL_ORDER_PERCENT_OFF = 15;
+
+export type CartDiscount = { cents: number; label: string };
+
+/**
+ * The automatic discount for a cart, or null. Two rules, never stacked:
+ *  - 4+ coasters: buy 3 get 1 free (floor(qty / 4) cheapest coasters are free)
+ *  - 1 or 2 coasters: 15% off the subtotal
+ * (3 coasters gets nothing.) Shared by the cart UI and /api/checkout.
+ */
+export function discountFor(
+  lines: { unitCents: number; qty: number }[],
+): CartDiscount | null {
+  const totalQty = lines.reduce((n, l) => n + l.qty, 0);
+
+  if (totalQty >= FREE_EVERY_NTH) {
+    const freeCount = Math.floor(totalQty / FREE_EVERY_NTH);
+    const unitPrices = lines
+      .flatMap((l) => Array<number>(l.qty).fill(l.unitCents))
+      .sort((a, b) => a - b);
+    const cents = unitPrices.slice(0, freeCount).reduce((n, c) => n + c, 0);
+    return cents > 0
+      ? {
+          cents,
+          label: freeCount === 1 ? "Buy 3 get 1 free" : `Buy 3 get 1 free (×${freeCount})`,
+        }
+      : null;
+  }
+
+  if (totalQty >= 1 && totalQty <= SMALL_ORDER_MAX_QTY) {
+    const subtotal = lines.reduce((n, l) => n + l.unitCents * l.qty, 0);
+    const cents = Math.round((subtotal * SMALL_ORDER_PERCENT_OFF) / 100);
+    return cents > 0 ? { cents, label: `${SMALL_ORDER_PERCENT_OFF}% off` } : null;
+  }
+
+  return null;
+}
+
 /**
  * Validate untrusted cart input (from JSON). Returns clean items, or an error
  * string. Merges duplicate designs so the Stripe line items stay tidy.

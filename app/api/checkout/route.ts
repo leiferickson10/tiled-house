@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { getStripe } from "../../lib/stripe";
-import { SHIPPING_CENTS, resolveItem, shippingFor, validateCart } from "../../lib/shop";
+import { SHIPPING_CENTS, discountFor, resolveItem, shippingFor, validateCart } from "../../lib/shop";
 
 // Stripe product tax codes: https://docs.stripe.com/tax/tax-codes
 const TAX_CODE_TANGIBLE_GOODS = "txcd_99999999";
@@ -53,7 +53,21 @@ export async function POST(req: Request) {
   );
 
   const shipping = shippingFor(subtotal);
+  const discount = discountFor(
+    cart.items.map(({ id, qty }) => ({ unitCents: resolveItem(id)!.unitCents, qty })),
+  );
   try {
+    // Automatic discount: a one-off coupon sized by lib/shop.ts, so the browser
+    // can never choose its own amount.
+    const coupon = discount
+      ? await getStripe().coupons.create({
+          amount_off: discount.cents,
+          currency: "usd",
+          duration: "once",
+          name: discount.label,
+        })
+      : null;
+
     const session = await getStripe().checkout.sessions.create({
       mode: "payment",
       ui_mode: "embedded_page",
@@ -77,9 +91,12 @@ export async function POST(req: Request) {
         },
       ],
 
-      // Discounts: shows a "promotion code" box. Codes (e.g. FRIENDS) are created
-      // in the Stripe dashboard, so rates and expiry never live in this code.
-      allow_promotion_codes: true,
+      // Discounts: Stripe doesn't allow `discounts` and `allow_promotion_codes`
+      // together. With an automatic discount we apply it and hide the promo box;
+      // otherwise the box shows and dashboard codes (e.g. FRIENDS) still work.
+      ...(coupon
+        ? { discounts: [{ coupon: coupon.id }] }
+        : { allow_promotion_codes: true }),
 
       // Fraud signals: more data = better Radar scoring and easier dispute defense.
       billing_address_collection: "required",

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cartActions, useCart } from "../lib/cart";
-import { MAX_QTY_PER_LINE, formatUsd, resolveItem } from "../lib/shop";
+import { MAX_QTY_PER_LINE, discountFor, formatUsd, resolveItem } from "../lib/shop";
 import CoasterThumb from "./CoasterThumb";
 
 export default function CartView() {
@@ -28,6 +28,9 @@ export default function CartView() {
     return product ? [{ cartItem, product }] : [];
   });
   const subtotal = lines.reduce((n, l) => n + l.product.unitCents * l.cartItem.qty, 0);
+  const discount = discountFor(
+    lines.map((l) => ({ unitCents: l.product.unitCents, qty: l.cartItem.qty })),
+  );
 
   return (
     <div className="grid gap-10 lg:grid-cols-[1fr_20rem]">
@@ -89,6 +92,18 @@ export default function CartView() {
           <span>Subtotal</span>
           <span>{formatUsd(subtotal)}</span>
         </p>
+        {discount && (
+          <>
+            <p className="mt-2 flex justify-between text-[#b15356]">
+              <span>{discount.label}</span>
+              <span>&minus;{formatUsd(discount.cents)}</span>
+            </p>
+            <p className="mt-2 flex justify-between text-lg font-medium">
+              <span>Total</span>
+              <span>{formatUsd(subtotal - discount.cents)}</span>
+            </p>
+          </>
+        )}
         <p className="mt-2 text-sm text-[#4a1d31]/70">
           Shipping and sales tax are calculated at checkout once we know where it&rsquo;s going.
         </p>
