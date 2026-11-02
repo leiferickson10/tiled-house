@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCart } from "../lib/cart";
-import { formatUsd, resolveItem, shippingFor } from "../lib/shop";
+import { discountFor, formatUsd, resolveItem, shippingFor } from "../lib/shop";
 import CoasterThumb from "./CoasterThumb";
 
 // Created once at module scope so Stripe.js isn't re-loaded on every render.
@@ -65,6 +65,10 @@ export default function CheckoutView() {
   });
   const subtotal = lines.reduce((n, l) => n + l.product.unitCents * l.cartItem.qty, 0);
   const shipping = shippingFor(subtotal);
+  // Same rule /api/checkout applies, so this summary matches what Stripe charges.
+  const discount = discountFor(
+    lines.map(({ cartItem, product }) => ({ unitCents: product.unitCents, qty: cartItem.qty })),
+  );
 
   return (
     <div>
@@ -138,6 +142,12 @@ export default function CheckoutView() {
               <dt>Subtotal</dt>
               <dd>{formatUsd(subtotal)}</dd>
             </div>
+            {discount && (
+              <div className="flex justify-between text-[#b15356]">
+                <dt>{discount.label}</dt>
+                <dd>&minus;{formatUsd(discount.cents)}</dd>
+              </div>
+            )}
             <div className="flex justify-between">
               <dt>Shipping</dt>
               <dd>{shipping === 0 ? "Free" : formatUsd(shipping)}</dd>
@@ -149,7 +159,7 @@ export default function CheckoutView() {
           </dl>
           <p className="mt-4 flex justify-between border-t border-[#4a1d31]/15 pt-4 text-lg font-bold">
             <span>Total before tax</span>
-            <span className="text-[#b15356]">{formatUsd(subtotal + shipping)}</span>
+            <span className="text-[#b15356]">{formatUsd(subtotal - (discount?.cents ?? 0) + shipping)}</span>
           </p>
           <p className="mt-3 text-xs text-[#4a1d31]/70">
             Have a friends &amp; family code? Enter it in the payment box.
