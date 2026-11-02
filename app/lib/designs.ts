@@ -17,10 +17,9 @@ export type Design = {
 };
 
 const SIZE = 4;
-const slug = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
 
 const solids: Design[] = TILES.map((t, i) => ({
-  id: `solid-${slug(t.name)}`,
+  id: `solid-${t.key}`,
   name: `${t.name} Solid`,
   kind: "solid",
   colors: [i],
@@ -31,7 +30,7 @@ const checkerboards: Design[] = [];
 for (let a = 0; a < TILES.length; a++) {
   for (let b = a + 1; b < TILES.length; b++) {
     checkerboards.push({
-      id: `checker-${slug(TILES[a].name)}-${slug(TILES[b].name)}`,
+      id: `checker-${TILES[a].key}-${TILES[b].key}`,
       name: `${TILES[a].name} + ${TILES[b].name} Checkerboard`,
       kind: "checkerboard",
       colors: [a, b],

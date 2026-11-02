@@ -8,6 +8,8 @@
 export type TileColor = {
   sku: string;
   name: string;
+  /** Stable id for photo files and design ids. Never rename it; `name` is display text. */
+  key: string;
   code: string;
   hex: string;
   rgb: [number, number, number];
@@ -16,20 +18,20 @@ export type TileColor = {
 export const TILES: TileColor[] = [
   // Dusk (C110) is out of stock; re-add this line when it is back:
   // { sku: "19-C110-11", code: "C110", name: "Dusk", hex: "#577594", rgb: [87, 117, 148] },
-  { sku: "19-C106-11", code: "C106", name: "Moonlight", hex: "#B9CECE", rgb: [185, 206, 206] },
-  { sku: "19-C116-11", code: "C116", name: "Auburn", hex: "#C5523A", rgb: [197, 82, 58] },
-  { sku: "19-C111-11", code: "C111", name: "Grasshopper", hex: "#8DA26E", rgb: [141, 162, 110] },
-  { sku: "19-C117-11", code: "C117", name: "Cherry", hex: "#D42E2A", rgb: [212, 46, 42] },
-  { sku: "19-C108-11", code: "C108", name: "Fountain Blue", hex: "#7DC1CA", rgb: [125, 193, 202] },
-  { sku: "19-C115-11", code: "C115", name: "Brandied Melon", hex: "#B57453", rgb: [181, 116, 83] },
-  { sku: "19-C109-11", code: "C109", name: "Powder", hex: "#90B7CB", rgb: [144, 183, 203] },
-  { sku: "19-C101-11", code: "C101", name: "Pearl", hex: "#E3E6E3", rgb: [227, 230, 227] },
-  { sku: "19-C125-11", code: "C125", name: "Hawaiian Ocean", hex: "#119DC0", rgb: [17, 157, 192] },
+  { sku: "19-C106-11", code: "C106", name: "Moonlight", key: "moonlight", hex: "#B9CECE", rgb: [185, 206, 206] },
+  { sku: "19-C116-11", code: "C116", name: "Auburn", key: "auburn", hex: "#C5523A", rgb: [197, 82, 58] },
+  { sku: "19-C111-11", code: "C111", name: "Sage", key: "grasshopper", hex: "#8DA26E", rgb: [141, 162, 110] },
+  { sku: "19-C117-11", code: "C117", name: "Ruby", key: "cherry", hex: "#D42E2A", rgb: [212, 46, 42] },
+  { sku: "19-C108-11", code: "C108", name: "Coastal Blue", key: "fountain-blue", hex: "#7DC1CA", rgb: [125, 193, 202] },
+  { sku: "19-C115-11", code: "C115", name: "Cinnamon", key: "brandied-melon", hex: "#B57453", rgb: [181, 116, 83] },
+  { sku: "19-C109-11", code: "C109", name: "Powder", key: "powder", hex: "#90B7CB", rgb: [144, 183, 203] },
+  { sku: "19-C101-11", code: "C101", name: "Pearl", key: "pearl", hex: "#E3E6E3", rgb: [227, 230, 227] },
+  { sku: "19-C125-11", code: "C125", name: "Electric Blue", key: "hawaiian-ocean", hex: "#119DC0", rgb: [17, 157, 192] },
 ];
 
-/** Close-up photo of one glass tile, in public/images/tiles/<color-name>.jpg. */
+/** Close-up photo of one glass tile, in public/images/tiles/<key>.jpg. */
 export const tilePhoto = (t: TileColor) =>
-  `/images/tiles/${t.name.toLowerCase().replace(/\s+/g, "-")}.jpg`;
+  `/images/tiles/${t.key}.jpg`;
 
 /** CSS background for a tile: its photo, with the flat color as a placeholder. */
 export const tileBackground = (t: TileColor) =>

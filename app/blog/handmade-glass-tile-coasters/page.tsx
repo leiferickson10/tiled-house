@@ -90,27 +90,27 @@ const SWATCHES = [
   { name: "Pearl", file: "pearl" },
   { name: "Moonlight", file: "moonlight" },
   { name: "Powder", file: "powder" },
-  { name: "Fountain Blue", file: "fountain-blue" },
-  { name: "Hawaiian Ocean", file: "hawaiian-ocean" },
-  { name: "Grasshopper", file: "grasshopper" },
-  { name: "Brandied Melon", file: "brandied-melon" },
+  { name: "Coastal Blue", file: "fountain-blue" },
+  { name: "Electric Blue", file: "hawaiian-ocean" },
+  { name: "Sage", file: "grasshopper" },
+  { name: "Cinnamon", file: "brandied-melon" },
   { name: "Auburn", file: "auburn" },
-  { name: "Cherry", file: "cherry" },
+  { name: "Ruby", file: "cherry" },
 ];
 
 const PAIRINGS = [
   {
-    name: "Pearl + Brandied Melon",
+    name: "Pearl + Cinnamon",
     file: "pearl-brandied-melon",
     alt: "Overhead view of a glass tile coaster in a checkerboard of pale gray and terracotta",
   },
   {
-    name: "Moonlight + Fountain Blue",
+    name: "Moonlight + Coastal Blue",
     file: "moonlight-fountain-blue",
     alt: "Overhead view of a glass tile coaster in a checkerboard of pale blue and teal",
   },
   {
-    name: "Solid Grasshopper",
+    name: "Solid Sage",
     file: "solid-grasshopper",
     alt: "Overhead view of a glass tile coaster made entirely of sage green tiles",
   },
@@ -126,7 +126,7 @@ export default function HandmadeGlassTileCoastersPost() {
       <article className="max-w-2xl space-y-5 text-lg leading-relaxed text-[#4a1d31]/90">
         <p className="-mt-4 italic text-[#4a1d31]/70">
           Tiled House makes handmade glass mosaic coasters in soft blues, sage,
-          clay and cherry red. Here&rsquo;s what goes into them, and how to make
+          clay and ruby red. Here&rsquo;s what goes into them, and how to make
           a set that looks like your home.
         </p>
 
@@ -179,18 +179,18 @@ export default function HandmadeGlassTileCoastersPost() {
             and pale grays
           </li>
           <li>
-            <strong>Powder</strong>, <strong>Fountain Blue</strong> and{" "}
-            <strong>Hawaiian Ocean</strong>: light sky blue to deep teal
+            <strong>Powder</strong>, <strong>Coastal Blue</strong> and{" "}
+            <strong>Electric Blue</strong>: light sky blue to deep teal
           </li>
           <li>
-            <strong>Grasshopper</strong>: a muted sage green
+            <strong>Sage</strong>: a muted, earthy green
           </li>
           <li>
-            <strong>Brandied Melon</strong> and <strong>Auburn</strong>: warm
+            <strong>Cinnamon</strong> and <strong>Auburn</strong>: warm
             terracotta and clay
           </li>
           <li>
-            <strong>Cherry</strong>: a bright, glossy red
+            <strong>Ruby</strong>: a bright, glossy red
           </li>
         </ul>
 
@@ -215,9 +215,9 @@ export default function HandmadeGlassTileCoastersPost() {
           </figcaption>
         </figure>
         <p>
-          We have a lot of ready-made pairings, such as Green + Light Blue,
-          Pearl + Brandied Melon and Moonlight + Fountain Blue. We also make
-          solid-color coasters like Solid Grasshopper and Solid Powder. Browse
+          We have a lot of ready-made pairings, such as Sage + Light Blue,
+          Pearl + Cinnamon and Moonlight + Coastal Blue. We also make
+          solid-color coasters like Solid Sage and Solid Powder. Browse
           them all in the{" "}
           <Link href="/shop" className={linkClass}>
             shop
