@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...READY_MADE.map((c) => ({ url: absoluteUrl(`/shop/${c.slug}`) })),
     { url: absoluteUrl("/custom") },
     { url: absoluteUrl("/mosaics") },
+    { url: absoluteUrl("/faq") },
     { url: absoluteUrl("/contact") },
     { url: absoluteUrl("/shipping-returns") },
     { url: absoluteUrl("/privacy") },

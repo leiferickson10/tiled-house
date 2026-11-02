@@ -109,6 +109,13 @@ export default async function ProductPage({
             Buy 3 get 1 free, or 15% off orders of 1&ndash;2 coasters. Applied automatically
             at checkout.
           </p>
+          <p className="mt-2 text-sm text-[#4a1d31]/70">
+            Questions about shipping or returns? See our{" "}
+            <Link href="/faq" className="font-bold underline underline-offset-4 hover:text-[#b15356]">
+              FAQ
+            </Link>
+            .
+          </p>
         </div>
       </div>
 

@@ -130,6 +130,7 @@ export default function SiteFooter() {
           <Link href="/">Home</Link>
           <Link href="/shop">Shop</Link>
           <Link href="/custom">Custom Design</Link>
+          <Link href="/faq">FAQ</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/shipping-returns">Shipping &amp; Returns</Link>
           <Link href="/privacy">Privacy</Link>

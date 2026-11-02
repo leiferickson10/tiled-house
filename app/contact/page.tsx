@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageShell from "../components/PageShell";
 import { CONTACT_EMAIL } from "../lib/site";
 
@@ -50,7 +51,11 @@ export default function ContactPage() {
         </div>
         <p className="text-base text-[#4a1d31]/70">
           Please include your order reference (from your confirmation email) if you&rsquo;re asking
-          about an order.
+          about an order. You may also find your answer in our{" "}
+          <Link href="/faq" className={linkClass}>
+            FAQ
+          </Link>
+          .
         </p>
       </div>
     </PageShell>

@@ -119,6 +119,17 @@ export default function CartView() {
         <p className="mt-2 text-sm text-[#4a1d31]/70">
           Shipping and sales tax are calculated at checkout once we know where it&rsquo;s going.
         </p>
+        <p className="mt-2 text-sm text-[#4a1d31]/70">
+          Questions? See our{" "}
+          <Link href="/faq" className="underline underline-offset-2 hover:text-[#b15356]">
+            FAQ
+          </Link>{" "}
+          or{" "}
+          <Link href="/shipping-returns" className="underline underline-offset-2 hover:text-[#b15356]">
+            shipping &amp; returns
+          </Link>
+          .
+        </p>
         <Link
           href="/checkout"
           className="mt-5 block rounded-full bg-[#b15356] px-6 py-4 text-center text-base font-bold text-[#f9f8f0] transition hover:bg-[#9a4347]"

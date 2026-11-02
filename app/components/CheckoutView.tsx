@@ -169,6 +169,10 @@ export default function CheckoutView() {
             Handmade and shipped within {PROCESSING_DAYS} business days. See our{" "}
             <Link href="/shipping-returns" className="underline underline-offset-2">
               shipping &amp; returns policy
+            </Link>{" "}
+            or{" "}
+            <Link href="/faq" className="underline underline-offset-2">
+              FAQ
             </Link>
             .
           </p>
