@@ -16,10 +16,10 @@ export type ReadyMadeCoaster = {
 };
 
 export const READY_MADE: ReadyMadeCoaster[] = [
-  { slug: "green-light-blue", name: "Sage + Light Blue", colors: ["Sage", "Coastal Blue"] },
-  { slug: "green-terracotta", name: "Sage + Terracotta", colors: ["Sage", "Cinnamon"] },
-  { slug: "green-white", name: "Sage + White", colors: ["Sage", "Pearl"] },
-  { slug: "light-blue-green", name: "Light Blue + Sage", colors: ["Powder", "Sage"] },
+  { slug: "green-light-blue", name: "Sage + Coastal Blue", colors: ["Sage", "Coastal Blue"] },
+  { slug: "green-terracotta", name: "Sage + Cinnamon", colors: ["Sage", "Cinnamon"] },
+  { slug: "green-white", name: "Sage + Pearl", colors: ["Sage", "Pearl"] },
+  { slug: "light-blue-green", name: "Powder + Sage", colors: ["Powder", "Sage"] },
   { slug: "powder-fountain-blue", name: "Powder + Coastal Blue", colors: ["Powder", "Coastal Blue"] },
   { slug: "moonlight-fountain-blue", name: "Moonlight + Coastal Blue", colors: ["Moonlight", "Coastal Blue"] },
   { slug: "pearl-moonlight", name: "Pearl + Moonlight", colors: ["Pearl", "Moonlight"] },

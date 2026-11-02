@@ -215,7 +215,7 @@ export default function HandmadeGlassTileCoastersPost() {
           </figcaption>
         </figure>
         <p>
-          We have a lot of ready-made pairings, such as Sage + Light Blue,
+          We have a lot of ready-made pairings, such as Sage + Coastal Blue,
           Pearl + Cinnamon and Moonlight + Coastal Blue. We also make
           solid-color coasters like Solid Sage and Solid Powder. Browse
           them all in the{" "}
@@ -270,7 +270,7 @@ export default function HandmadeGlassTileCoastersPost() {
             look good on a coffee table.
           </li>
           <li>
-            <strong>Mix warm and cool.</strong> Terracotta with sage or powder
+            <strong>Mix warm and cool.</strong> Cinnamon with sage or powder
             blue is a Tiled House favorite.
           </li>
           <li>
