@@ -72,7 +72,7 @@ export async function sendOrderEmail(session: Stripe.Checkout.Session): Promise<
     <table style="width:100%;border-collapse:collapse;border-top:1px solid #d9cfc0">${rows}</table>
     <table style="width:100%;border-collapse:collapse;border-top:1px solid #d9cfc0;margin-top:8px">
       ${totals?.amount_discount ? totalRow("Discount", -totals.amount_discount) : ""}
-      ${totalRow("Shipping", totals?.amount_shipping ?? 0)}
+      ${totalRow(session.metadata?.local_delivery === "true" ? "Shipping (free local delivery)" : "Shipping", totals?.amount_shipping ?? 0)}
       ${totalRow("Sales tax", totals?.amount_tax ?? 0)}
       ${totalRow("Total", session.amount_total ?? 0, true)}
     </table>
@@ -156,6 +156,7 @@ export async function sendOwnerOrderEmail(session: Stripe.Checkout.Session): Pro
     : "(no shipping address)";
 
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;color:#222;max-width:600px">
+    ${session.metadata?.local_delivery === "true" ? `<p style="margin:0 0 12px;padding:10px 12px;background:#ddcd71;font-weight:bold">LOCAL DELIVERY: drop this off yourself (free shipping code used)</p>` : ""}
     <h2 style="margin:0 0 4px">New order #${esc(ref)}</h2>
     <p style="margin:0 0 16px">Total ${formatUsd(session.amount_total ?? 0)}</p>
     <h3 style="margin:16px 0 0">Make these</h3>${items}
@@ -167,7 +168,7 @@ export async function sendOwnerOrderEmail(session: Stripe.Checkout.Session): Pro
   await postEmail(apiKey, `owner-${session.id}`, {
     from,
     to,
-    subject: `New order #${ref}: ${(session.line_items?.data ?? []).reduce((n, li) => n + (li.quantity ?? 1), 0)} coaster(s)`,
+    subject: `${session.metadata?.local_delivery === "true" ? "[LOCAL DELIVERY] " : ""}New order #${ref}: ${(session.line_items?.data ?? []).reduce((n, li) => n + (li.quantity ?? 1), 0)} coaster(s)`,
     html,
   });
 }

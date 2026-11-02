@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCart } from "../lib/cart";
+import { getSavedLocalCode } from "../lib/localCode";
 import { discountFor, formatUsd, resolveItem, shippingFor } from "../lib/shop";
 import { PROCESSING_DAYS } from "../lib/site";
 import CoasterThumb from "./CoasterThumb";
@@ -29,11 +30,27 @@ export default function CheckoutView() {
     itemsRef.current = items;
   }, [items]);
 
+  // A local-delivery code typed on the cart page means free shipping (you drop it
+  // off). The server checks it again; this only drives what the summary shows.
+  const [localDelivery, setLocalDelivery] = useState(false);
+  useEffect(() => {
+    const saved = getSavedLocalCode();
+    if (!saved) return;
+    fetch("/api/local-delivery", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: saved }),
+    })
+      .then((r) => r.json())
+      .then((d: { valid: boolean }) => setLocalDelivery(d.valid))
+      .catch(() => {});
+  }, []);
+
   const fetchClientSecret = useCallback(async () => {
     const res = await fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: itemsRef.current }),
+      body: JSON.stringify({ items: itemsRef.current, localCode: getSavedLocalCode() }),
     });
     const data = (await res.json().catch(() => ({}))) as {
       clientSecret?: string;
@@ -65,7 +82,7 @@ export default function CheckoutView() {
     return product ? [{ cartItem, product }] : [];
   });
   const subtotal = lines.reduce((n, l) => n + l.product.unitCents * l.cartItem.qty, 0);
-  const shipping = shippingFor(subtotal);
+  const shipping = localDelivery ? 0 : shippingFor(subtotal);
   // Same rule /api/checkout applies, so this summary matches what Stripe charges.
   const discount = discountFor(
     lines.map(({ cartItem, product }) => ({ unitCents: product.unitCents, qty: cartItem.qty })),
@@ -151,7 +168,9 @@ export default function CheckoutView() {
             )}
             <div className="flex justify-between">
               <dt>Shipping</dt>
-              <dd>{shipping === 0 ? "Free" : formatUsd(shipping)}</dd>
+              <dd>
+                {shipping === 0 ? (localDelivery ? "Free (local delivery)" : "Free") : formatUsd(shipping)}
+              </dd>
             </div>
             <div className="flex justify-between text-[#4a1d31]/70">
               <dt>Sales tax</dt>

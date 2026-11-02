@@ -5,6 +5,7 @@ import Link from "next/link";
 import { cartActions, useCart } from "../lib/cart";
 import { FREE_EVERY_NTH, MAX_QTY_PER_LINE, discountFor, formatUsd, resolveItem } from "../lib/shop";
 import CoasterThumb from "./CoasterThumb";
+import LocalDeliveryCode from "./LocalDeliveryCode";
 
 export default function CartView() {
   const items = useCart();
@@ -119,6 +120,7 @@ export default function CartView() {
         <p className="mt-2 text-sm text-[#4a1d31]/70">
           Shipping and sales tax are calculated at checkout once we know where it&rsquo;s going.
         </p>
+        <LocalDeliveryCode />
         <p className="mt-2 text-sm text-[#4a1d31]/70">
           Questions? See our{" "}
           <Link href="/faq" className="underline underline-offset-2 hover:text-[#b15356]">

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
+import { isLocalDeliveryCode } from "../../lib/localDelivery";
 import { SOLD_OUT_IN_CODE, soldOutTilesIn } from "../../lib/stock";
 import { getStripe } from "../../lib/stripe";
 import { SHIPPING_CENTS, discountFor, resolveItem, shippingFor, validateCart } from "../../lib/shop";
@@ -70,7 +71,10 @@ export async function POST(req: Request) {
     },
   );
 
-  const shipping = shippingFor(subtotal);
+  // A valid local-delivery code means you're dropping it off, so shipping is free.
+  // The code is checked here on the server; the browser only sends what was typed.
+  const localDelivery = isLocalDeliveryCode((body as { localCode?: unknown })?.localCode);
+  const shipping = localDelivery ? 0 : shippingFor(subtotal);
   const discount = discountFor(
     cart.items.map(({ id, qty }) => ({ unitCents: resolveItem(id)!.unitCents, qty })),
   );
@@ -101,7 +105,11 @@ export async function POST(req: Request) {
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            display_name: shipping === 0 ? "Free shipping" : "Standard shipping",
+            display_name: localDelivery
+              ? "Free local delivery (drop-off)"
+              : shipping === 0
+                ? "Free shipping"
+                : "Standard shipping",
             fixed_amount: { amount: shipping, currency: "usd" },
             tax_behavior: "exclusive",
             tax_code: TAX_CODE_SHIPPING,
@@ -122,7 +130,12 @@ export async function POST(req: Request) {
 
       // Abandoned sessions stop being payable after an hour.
       expires_at: Math.floor(Date.now() / 1000) + 60 * 60,
-      metadata: { source: "tiledhouse.com", shipping_cents: String(SHIPPING_CENTS) },
+      metadata: {
+        source: "tiledhouse.com",
+        shipping_cents: String(SHIPPING_CENTS),
+        // The order emails read this to flag orders you'll drop off yourself.
+        ...(localDelivery ? { local_delivery: "true" } : {}),
+      },
     });
 
     return NextResponse.json({ clientSecret: session.client_secret });
