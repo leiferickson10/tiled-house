@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
+import { sendOrderEmail } from "../../../lib/orderEmail";
 import { getStripe } from "../../../lib/stripe";
 
 /**
@@ -71,9 +72,10 @@ async function fulfillOrder(sessionId: string) {
     grid: (li.price?.product as Stripe.Product | undefined)?.metadata?.grid,
   }));
 
-  // TODO: there is no database or email provider in this project yet. Until
-  // there is, new orders only show in the server log and the Stripe Dashboard.
-  // Next step: email yourself (Resend) and/or save to a DB, keyed on session.id.
+  // Customer confirmation (+ optional BCC to you). Idempotent via session.id.
+  // There is still no database: orders live in the log, Stripe and your inbox.
+  await sendOrderEmail(session);
+
   console.log("NEW ORDER", {
     id: session.id,
     email: session.customer_details?.email,
