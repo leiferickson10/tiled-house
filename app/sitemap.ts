@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { READY_MADE } from "./lib/coasters";
 import { absoluteUrl } from "./lib/site";
 
 // Public, indexable pages only. /cart, /checkout and the order confirmation are
@@ -8,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: absoluteUrl("/") },
     { url: absoluteUrl("/shop") },
+    ...READY_MADE.map((c) => ({ url: absoluteUrl(`/shop/${c.slug}`) })),
     { url: absoluteUrl("/custom") },
     { url: absoluteUrl("/mosaics") },
     {

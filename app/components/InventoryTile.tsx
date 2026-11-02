@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
@@ -174,13 +175,13 @@ function ComingSoonModal({
               <span className="h-px flex-1" style={{ background: "#b15356", opacity: 0.4 }} />
             </div>
 
-            <a
+            <Link
               href="/shop"
               className="block w-full px-3 py-3 text-base underline"
               style={{ background: "#ddcd71", color: "#ac5725" }}
             >
               Shop our current inventory
-            </a>
+            </Link>
           </>
         )}
       </div>
