@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cartActions, useCart } from "../lib/cart";
-import { MAX_QTY_PER_LINE, discountFor, formatUsd, resolveItem } from "../lib/shop";
+import { FREE_EVERY_NTH, MAX_QTY_PER_LINE, discountFor, formatUsd, resolveItem } from "../lib/shop";
 import CoasterThumb from "./CoasterThumb";
 
 export default function CartView() {
@@ -28,6 +28,7 @@ export default function CartView() {
     return product ? [{ cartItem, product }] : [];
   });
   const subtotal = lines.reduce((n, l) => n + l.product.unitCents * l.cartItem.qty, 0);
+  const totalQty = lines.reduce((n, l) => n + l.cartItem.qty, 0);
   const discount = discountFor(
     lines.map((l) => ({ unitCents: l.product.unitCents, qty: l.cartItem.qty })),
   );
@@ -103,6 +104,17 @@ export default function CartView() {
               <span>{formatUsd(subtotal - discount.cents)}</span>
             </p>
           </>
+        )}
+        {totalQty === FREE_EVERY_NTH - 1 && (
+          <div className="mt-4 rounded-md bg-[#b15356]/10 p-3 text-sm text-[#4a1d31]">
+            <p className="font-bold">Add 1 more coaster and get one free!</p>
+            <p className="mt-1">
+              Buy 3, get 1 free. Your fourth coaster is on us.{" "}
+              <Link href="/shop" className="font-medium underline underline-offset-4">
+                Shop coasters
+              </Link>
+            </p>
+          </div>
         )}
         <p className="mt-2 text-sm text-[#4a1d31]/70">
           Shipping and sales tax are calculated at checkout once we know where it&rsquo;s going.
