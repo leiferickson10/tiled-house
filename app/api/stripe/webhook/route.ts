@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
-import { sendOrderEmail } from "../../../lib/orderEmail";
+import { sendOrderEmail, sendOwnerOrderEmail } from "../../../lib/orderEmail";
 import { getStripe } from "../../../lib/stripe";
 
 /**
@@ -75,6 +75,7 @@ async function fulfillOrder(sessionId: string) {
   // Customer confirmation (+ optional BCC to you). Idempotent via session.id.
   // There is still no database: orders live in the log, Stripe and your inbox.
   await sendOrderEmail(session);
+  await sendOwnerOrderEmail(session); // what to make + where to ship
 
   console.log("NEW ORDER", {
     id: session.id,
