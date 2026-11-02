@@ -15,8 +15,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
+  // The env var is only trusted if it's a public https URL. A leftover
+  // "http://localhost:3000" in production would send paid customers to a dead
+  // page, so anything else falls back to the origin the request came from.
+  const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
   const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? new URL(req.url).origin;
+    envUrl?.startsWith("https://") && !envUrl.includes("localhost")
+      ? envUrl
+      : new URL(req.url).origin;
 
   // Launch smoke test: a $1 item that runs through the SAME session settings as a
   // real order (tax, billing address, webhook). It only exists while the secret
