@@ -12,6 +12,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...READY_MADE.map((c) => ({ url: absoluteUrl(`/shop/${c.slug}`) })),
     { url: absoluteUrl("/custom") },
     { url: absoluteUrl("/mosaics") },
+    { url: absoluteUrl("/contact") },
+    { url: absoluteUrl("/shipping-returns") },
+    { url: absoluteUrl("/privacy") },
     {
       url: absoluteUrl("/blog/handmade-glass-tile-coasters"),
       lastModified: "2026-10-27",

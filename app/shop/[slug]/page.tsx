@@ -7,7 +7,7 @@ import PageShell from "../../components/PageShell";
 import ProductGallery, { type GalleryImage } from "../../components/ProductGallery";
 import { READY_MADE, readyMadeBySlug, readyMadePhoto } from "../../lib/coasters";
 import { READY_MADE_PRICE_CENTS, readyMadeId } from "../../lib/shop";
-import { SITE_NAME, absoluteUrl } from "../../lib/site";
+import { PROCESSING_DAYS, SITE_NAME, absoluteUrl } from "../../lib/site";
 
 // Shared photos that sit behind every coaster's own photo.
 const PRODUCT_SHOT = "/images/detail/product-shot.webp";
@@ -93,7 +93,13 @@ export default async function ProductPage({
             <li>4&Prime; &times; 4&Prime; glass mosaic tile</li>
             <li>Colors: {c.colors.join(" + ")}</li>
             <li>Wood backing with felt feet</li>
-            <li>Made by hand to order</li>
+            <li>
+              Made by hand, ships within {PROCESSING_DAYS} business days (
+              <Link href="/shipping-returns" className="underline underline-offset-4 hover:text-[#b15356]">
+                shipping &amp; returns
+              </Link>
+              )
+            </li>
           </ul>
           {/* Tablet and up: button sits under the details. Phones use the fixed bar below. */}
           <div className="hidden sm:block">

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
+import { CONTACT_EMAIL } from "../lib/site";
 
 /*
  * Site-wide footer (rendered from app/layout.tsx) with the email signup for
@@ -86,14 +87,58 @@ export default function SiteFooter() {
           pieces, sales and blog posts. Unsubscribe anytime.
         </p>
 
+        <div className="mt-8 flex justify-center gap-6">
+          <a
+            href="https://www.instagram.com/tiledhouse.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-11 items-center gap-2 text-base hover:underline"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4.2" />
+              <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none" />
+            </svg>
+            Instagram
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+          <a
+            href="https://www.facebook.com/tiledhouse.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-11 items-center gap-2 text-base hover:underline"
+          >
+            <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
+              <path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.9v3h2.6V21h3z" />
+            </svg>
+            Facebook
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </div>
+
         <nav
           aria-label="Footer"
-          className="mt-8 flex justify-center gap-6 text-sm underline"
+          className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm underline"
         >
           <Link href="/">Home</Link>
           <Link href="/shop">Shop</Link>
           <Link href="/custom">Custom Design</Link>
+          <Link href="/contact">Contact</Link>
+          <Link href="/shipping-returns">Shipping &amp; Returns</Link>
+          <Link href="/privacy">Privacy</Link>
         </nav>
+        <p className="mt-4 text-sm">
+          <a href={`mailto:${CONTACT_EMAIL}`} className="underline">
+            {CONTACT_EMAIL}
+          </a>
+        </p>
         <p className="mt-6 text-xs opacity-80">
           &copy; {new Date().getFullYear()} Tiled House
         </p>

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useCart } from "../lib/cart";
 import { discountFor, formatUsd, resolveItem, shippingFor } from "../lib/shop";
+import { PROCESSING_DAYS } from "../lib/site";
 import CoasterThumb from "./CoasterThumb";
 
 // Created once at module scope so Stripe.js isn't re-loaded on every render.
@@ -163,6 +164,13 @@ export default function CheckoutView() {
           </p>
           <p className="mt-3 text-xs text-[#4a1d31]/70">
             Have a friends &amp; family code? Enter it in the payment box.
+          </p>
+          <p className="mt-3 text-xs text-[#4a1d31]/70">
+            Handmade and shipped within {PROCESSING_DAYS} business days. See our{" "}
+            <Link href="/shipping-returns" className="underline underline-offset-2">
+              shipping &amp; returns policy
+            </Link>
+            .
           </p>
           <Link
             href="/cart"

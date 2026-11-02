@@ -34,6 +34,10 @@ const siteJsonLd = {
       name: SITE_NAME,
       url: SITE_URL,
       logo: absoluteUrl("/images/home/logo-th.png"),
+      sameAs: [
+        "https://www.instagram.com/tiledhouse.co",
+        "https://www.facebook.com/tiledhouse.co",
+      ],
     },
     {
       "@type": "WebSite",

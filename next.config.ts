@@ -6,7 +6,12 @@ const nextConfig: NextConfig = {
 
   // /designs was the old version of the shop; send any old links to /shop.
   async redirects() {
-    return [{ source: "/designs", destination: "/shop", permanent: false }];
+    return [
+      { source: "/designs", destination: "/shop", permanent: false },
+      // Short links people might type or that other sites may use.
+      { source: "/shipping", destination: "/shipping-returns", permanent: true },
+      { source: "/returns", destination: "/shipping-returns", permanent: true },
+    ];
   },
 };
 
