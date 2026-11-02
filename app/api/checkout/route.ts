@@ -15,17 +15,43 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? new URL(req.url).origin;
+
+  // Launch smoke test: a $1 item that runs through the SAME session settings as a
+  // real order (tax, billing address, webhook). It only exists while the secret
+  // CHECKOUT_TEST_KEY env var is set, and only when the request presents it.
+  // Unset the env var after the live test and this branch is dead.
+  const testKey = process.env.CHECKOUT_TEST_KEY;
+  const isTest =
+    !!testKey && (body as { testKey?: unknown })?.testKey === testKey;
+
   // 1. Never trust the browser: re-validate the cart and rebuild every price here.
-  const cart = validateCart((body as { items?: unknown })?.items);
+  const cart = isTest
+    ? { items: [] as { id: string; qty: number }[] }
+    : validateCart((body as { items?: unknown })?.items);
   if ("error" in cart) {
     return NextResponse.json({ error: cart.error }, { status: 400 });
   }
 
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? new URL(req.url).origin;
-
   let subtotal = 0;
-  const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = cart.items.map(
+  const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = isTest
+    ? [
+        {
+          quantity: 1,
+          price_data: {
+            currency: "usd",
+            unit_amount: 100,
+            tax_behavior: "exclusive",
+            product_data: {
+              name: "TEST ORDER - do not ship",
+              tax_code: TAX_CODE_TANGIBLE_GOODS,
+              metadata: { sku: "TEST-DO-NOT-SHIP" },
+            },
+          },
+        },
+      ]
+    : cart.items.map(
     ({ id, qty }) => {
       const item = resolveItem(id)!; // validateCart already proved it resolves
       subtotal += item.unitCents * qty;
@@ -52,7 +78,7 @@ export async function POST(req: Request) {
     },
   );
 
-  const shipping = shippingFor(subtotal);
+  const shipping = isTest ? 0 : shippingFor(subtotal); // test order: keep total ~$1
   const discount = discountFor(
     cart.items.map(({ id, qty }) => ({ unitCents: resolveItem(id)!.unitCents, qty })),
   );
