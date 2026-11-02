@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { cartActions } from "../lib/cart";
-import { formatUsd } from "../lib/shop";
+import { MAX_QTY_PER_LINE, formatUsd } from "../lib/shop";
 
 /** Adds one coaster (a cart item id, see lib/shop.ts) to the cart. */
 export default function AddToCartButton({
@@ -18,10 +18,12 @@ export default function AddToCartButton({
   disabled?: boolean;
 }) {
   const [added, setAdded] = useState(false);
+  const [atLimit, setAtLimit] = useState(false);
 
   const add = () => {
-    cartActions.add(id);
-    setAdded(true);
+    const result = cartActions.add(id);
+    setAtLimit(result === "limit");
+    setAdded(result === "added" || added);
   };
 
   const size = compact ? "px-4 py-2 text-sm" : "px-6 py-4 text-base";
@@ -37,7 +39,14 @@ export default function AddToCartButton({
         {added ? "Add another" : "Add to cart"} &middot;{" "}
         {formatUsd(priceCents)}
       </button>
-      {added && (
+      {atLimit ? (
+        <p className="mt-2 text-sm" role="status">
+          Limit of {MAX_QTY_PER_LINE} per coaster.{" "}
+          <Link href="/cart" className="font-bold underline underline-offset-4">
+            View cart
+          </Link>
+        </p>
+      ) : added && (
         <p className="mt-2 text-sm" role="status">
           Added!{" "}
           <Link href="/cart" className="font-bold underline underline-offset-4">

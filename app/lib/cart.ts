@@ -34,12 +34,16 @@ function read(): CartItem[] {
   try {
     const parsed: unknown = raw ? JSON.parse(raw) : [];
     cache = Array.isArray(parsed)
-      ? parsed.filter(
-          (i): i is CartItem =>
-            resolveItem(i?.id) !== null &&
-            Number.isInteger(i?.qty) &&
-            i.qty >= 1,
-        )
+      ? parsed
+          .filter(
+            (i): i is CartItem =>
+              resolveItem(i?.id) !== null &&
+              Number.isInteger(i?.qty) &&
+              i.qty >= 1,
+          )
+          // Carts saved before the limit existed may hold more; trim them so
+          // checkout doesn't reject them.
+          .map((i) => ({ ...i, qty: Math.min(i.qty, MAX_QTY_PER_LINE) }))
       : EMPTY;
   } catch {
     cache = EMPTY;
@@ -70,10 +74,12 @@ function subscribe(cb: () => void) {
 }
 
 export const cartActions = {
-  add(id: string, qty = 1) {
+  /** Returns "limit" when nothing could be added (4 of this coaster, or cart full). */
+  add(id: string, qty = 1): "added" | "limit" {
     const items = read();
     const existing = items.find((i) => i.id === id);
     if (existing) {
+      if (existing.qty >= MAX_QTY_PER_LINE) return "limit";
       write(
         items.map((i) =>
           i === existing
@@ -81,9 +87,11 @@ export const cartActions = {
             : i,
         ),
       );
-    } else if (items.length < MAX_LINES) {
-      write([...items, { id, qty: Math.min(qty, MAX_QTY_PER_LINE) }]);
+      return "added";
     }
+    if (items.length >= MAX_LINES) return "limit";
+    write([...items, { id, qty: Math.min(qty, MAX_QTY_PER_LINE) }]);
+    return "added";
   },
   setQty(id: string, qty: number) {
     const q = Math.min(Math.max(qty, 0), MAX_QTY_PER_LINE);

@@ -9,7 +9,8 @@ import { TILES } from "./tiles";
  */
 
 export const GRID_CELLS = 16; // 4 x 4 tiles = one 4" coaster
-export const MAX_QTY_PER_LINE = 20;
+/** Most of any one coaster a customer can order. */
+export const MAX_QTY_PER_LINE = 4;
 export const MAX_LINES = 20;
 
 /** Flat US shipping, in cents. Set to 0 to offer free shipping everywhere. */
