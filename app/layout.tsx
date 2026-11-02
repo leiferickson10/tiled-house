@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans, Fraunces, Inter, Marcellus, Yellowtail } from "next/font/google";
 import "./globals.css";
 import SiteFooter from "./components/SiteFooter";
+import PromoBar from "./components/PromoBar";
 import { SITE_NAME, SITE_URL } from "./lib/site";
 
 const fraunces = Fraunces({
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${fraunces.variable} ${inter.variable} ${dmSans.variable} ${marcellus.variable} ${cormorant.variable} ${yellowtail.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-plaster text-ink">
+        <PromoBar />
         {children}
         <SiteFooter />
       </body>
