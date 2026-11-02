@@ -25,53 +25,25 @@ export async function POST(req: Request) {
       ? envUrl
       : new URL(req.url).origin;
 
-  // Launch smoke test: a $1 item that runs through the SAME session settings as a
-  // real order (tax, billing address, webhook). It only exists while the secret
-  // CHECKOUT_TEST_KEY env var is set, and only when the request presents it.
-  // Unset the env var after the live test and this branch is dead.
-  const testKey = process.env.CHECKOUT_TEST_KEY;
-  const isTest =
-    !!testKey && (body as { testKey?: unknown })?.testKey === testKey;
-
   // 1. Never trust the browser: re-validate the cart and rebuild every price here.
-  const cart = isTest
-    ? { items: [] as { id: string; qty: number }[] }
-    : validateCart((body as { items?: unknown })?.items);
+  const cart = validateCart((body as { items?: unknown })?.items);
   if ("error" in cart) {
     return NextResponse.json({ error: cart.error }, { status: 400 });
   }
 
   // Sold out: refuse any coaster that needs a tile color we've run out of. This
   // is the real check; the shop's "Sold out" buttons are just a convenience.
-  if (!isTest) {
-    for (const { id } of cart.items) {
-      if (soldOutTilesIn(id, SOLD_OUT_IN_CODE).length > 0) {
-        return NextResponse.json(
-          { error: `Sorry, ${resolveItem(id)!.name} just sold out. Please remove it from your cart.` },
-          { status: 409 },
-        );
-      }
+  for (const { id } of cart.items) {
+    if (soldOutTilesIn(id, SOLD_OUT_IN_CODE).length > 0) {
+      return NextResponse.json(
+        { error: `Sorry, ${resolveItem(id)!.name} just sold out. Please remove it from your cart.` },
+        { status: 409 },
+      );
     }
   }
 
   let subtotal = 0;
-  const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = isTest
-    ? [
-        {
-          quantity: 1,
-          price_data: {
-            currency: "usd",
-            unit_amount: 100,
-            tax_behavior: "exclusive",
-            product_data: {
-              name: "TEST ORDER - do not ship",
-              tax_code: TAX_CODE_TANGIBLE_GOODS,
-              metadata: { sku: "TEST-DO-NOT-SHIP" },
-            },
-          },
-        },
-      ]
-    : cart.items.map(
+  const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = cart.items.map(
     ({ id, qty }) => {
       const item = resolveItem(id)!; // validateCart already proved it resolves
       subtotal += item.unitCents * qty;
@@ -98,7 +70,7 @@ export async function POST(req: Request) {
     },
   );
 
-  const shipping = isTest ? 0 : shippingFor(subtotal); // test order: keep total ~$1
+  const shipping = shippingFor(subtotal);
   const discount = discountFor(
     cart.items.map(({ id, qty }) => ({ unitCents: resolveItem(id)!.unitCents, qty })),
   );
