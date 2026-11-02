@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { cartActions } from "../lib/cart";
 import { MAX_QTY_PER_LINE, formatUsd } from "../lib/shop";
+import { SOLD_OUT_IN_CODE, soldOutTilesIn } from "../lib/stock";
 
 /** Adds one coaster (a cart item id, see lib/shop.ts) to the cart. */
 export default function AddToCartButton({
@@ -19,6 +20,8 @@ export default function AddToCartButton({
 }) {
   const [added, setAdded] = useState(false);
   const [atLimit, setAtLimit] = useState(false);
+  // Sold out when any tile color this coaster needs has run out.
+  const soldOut = soldOutTilesIn(id, SOLD_OUT_IN_CODE).length > 0;
 
   const add = () => {
     const result = cartActions.add(id);
@@ -33,11 +36,16 @@ export default function AddToCartButton({
       <button
         type="button"
         onClick={add}
-        disabled={disabled}
+        disabled={disabled || soldOut}
         className={`w-full rounded-full bg-[#b15356] font-bold text-[#f9f8f0] transition hover:bg-[#9a4347] disabled:cursor-not-allowed disabled:opacity-50 ${compact ? "" : "sm:w-auto"} ${size}`}
       >
-        {added ? "Add another" : "Add to cart"} &middot;{" "}
-        {formatUsd(priceCents)}
+        {soldOut ? (
+          "Sold out"
+        ) : (
+          <>
+            {added ? "Add another" : "Add to cart"} &middot; {formatUsd(priceCents)}
+          </>
+        )}
       </button>
       {atLimit ? (
         <p className="mt-2 text-sm" role="status">

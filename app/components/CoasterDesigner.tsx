@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { gridId, unitPriceCents } from "../lib/shop";
 import { GROUT_HEX, TILES, tileBackground } from "../lib/tiles";
 import AddToCartButton from "./AddToCartButton";
+import { SOLD_OUT_IN_CODE } from "../lib/stock";
 
 const SIZE = 4; // 4 x 4 grid of 1" tiles = a 4" coaster
 const COUNT = SIZE * SIZE;
@@ -28,6 +29,8 @@ export default function CoasterDesigner({
   const [active, setActive] = useState(0);
   const [previous, setPrevious] = useState(1);
   const painting = useRef(false);
+  // Colors we've run out of can't be painted (checkout would refuse them anyway).
+  const isOut = (i: number) => SOLD_OUT_IN_CODE.includes(TILES[i].name);
   // Touch paints on a tap only, so a scroll swipe never recolors tiles.
   const lastPointer = useRef<string>("mouse");
   const [popped, setPopped] = useState<number | null>(null);
@@ -62,7 +65,7 @@ export default function CoasterDesigner({
   };
 
   const pickColor = (i: number) => {
-    if (i === active) return;
+    if (i === active || isOut(i)) return;
     setPrevious(active);
     setActive(i);
   };
@@ -79,11 +82,12 @@ export default function CoasterDesigner({
     );
 
   const randomize = () =>
-    commit(() =>
-      Array.from({ length: COUNT }, () =>
-        Math.floor(Math.random() * TILES.length),
-      ),
-    );
+    commit(() => {
+      // Only colors that are in stock (all of them if somehow none are).
+      const available = TILES.map((_, i) => i).filter((i) => !isOut(i));
+      const pool = available.length > 0 ? available : TILES.map((_, i) => i);
+      return Array.from({ length: COUNT }, () => pool[Math.floor(Math.random() * pool.length)]);
+    });
 
   const clearAll = () => commit(() => EMPTY);
 
@@ -190,7 +194,8 @@ export default function CoasterDesigner({
                 type="button"
                 onClick={() => pickColor(i)}
                 aria-pressed={i === active}
-                className={`flex flex-col items-center gap-1.5 rounded-md p-2 text-center text-xs transition ${
+                disabled={isOut(i)}
+                className={`flex flex-col items-center gap-1.5 rounded-md p-2 text-center text-xs transition disabled:cursor-not-allowed disabled:opacity-40 ${
                   i === active
                     ? "bg-[#b15356]/10 ring-2 ring-[#b15356]"
                     : "hover:bg-black/5"
@@ -203,7 +208,10 @@ export default function CoasterDesigner({
                     boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.12)",
                   }}
                 />
-                <span className="font-medium leading-tight">{t.name}</span>
+                <span className="font-medium leading-tight">
+                  {t.name}
+                  {isOut(i) && <span className="block font-bold text-[#b15356]">Sold out</span>}
+                </span>
               </button>
             ))}
           </div>
@@ -292,8 +300,9 @@ export default function CoasterDesigner({
               type="button"
               onClick={() => pickColor(i)}
               aria-pressed={i === active}
-              aria-label={t.name}
-              className={`h-16 w-16 shrink-0 rounded-[6px] transition ${
+              aria-label={isOut(i) ? `${t.name} (sold out)` : t.name}
+              disabled={isOut(i)}
+              className={`h-16 w-16 shrink-0 rounded-[6px] transition disabled:cursor-not-allowed disabled:opacity-25 ${
                 i === active
                   ? "ring-2 ring-[#b15356] ring-offset-2 ring-offset-[#f9f8f0]"
                   : "opacity-90"
