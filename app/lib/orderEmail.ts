@@ -1,5 +1,6 @@
 import type Stripe from "stripe";
 import { decodeGrid, formatUsd } from "./shop";
+import { CONTACT_EMAIL } from "./site";
 import { TILES } from "./tiles";
 
 /**
@@ -10,8 +11,10 @@ import { TILES } from "./tiles";
  *   RESEND_API_KEY      required, or no email is sent (the order is still logged)
  *   EMAIL_FROM          e.g. "Tiled House <orders@tiledhouse.com>" (domain must be
  *                       verified in Resend)
- *   ORDER_NOTIFY_EMAIL  where the shop-owner "New order" email goes (what to make,
- *                       4x4 tile layout, ship-to address, customer contact)
+ * The shop-owner "New order" email (what to make, 4x4 tile layout, ship-to
+ * address, customer contact) goes to CONTACT_EMAIL in lib/site.ts, the same
+ * address that receives the form messages. The old ORDER_NOTIFY_EMAIL env var is
+ * no longer used.
  */
 
 const esc = (s: unknown) =>
@@ -107,15 +110,15 @@ async function postEmail(apiKey: string, idempotencyKey: string, body: object) {
 }
 
 /**
- * "New order" email to the shop owner (ORDER_NOTIFY_EMAIL): what to make, for
+ * "New order" email to the shop owner (CONTACT_EMAIL): what to make, for
  * whom, and where to ship it. Custom coasters are spelled out as a 4x4 grid.
  */
 export async function sendOwnerOrderEmail(session: Stripe.Checkout.Session): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.EMAIL_FROM;
-  const to = process.env.ORDER_NOTIFY_EMAIL;
-  if (!apiKey || !from || !to) {
-    console.warn("Owner order email skipped: RESEND_API_KEY / EMAIL_FROM / ORDER_NOTIFY_EMAIL not set.", session.id);
+  const to = CONTACT_EMAIL;
+  if (!apiKey || !from) {
+    console.warn("Owner order email skipped: RESEND_API_KEY / EMAIL_FROM not set.", session.id);
     return;
   }
 
