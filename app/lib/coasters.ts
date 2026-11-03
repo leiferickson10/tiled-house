@@ -55,7 +55,6 @@ export const READY_MADE: ReadyMadeCoaster[] = [
   { slug: "solid-powder", name: "Solid Powder", colors: ["Powder"] },
   { slug: "solid-pearl", name: "Solid Pearl", colors: ["Pearl"] },
   { slug: "solid-cherry", name: "Solid Ruby", colors: ["Ruby"] },
-  { slug: "solid-auburn", name: "Solid Auburn", colors: ["Auburn"] },
   { slug: "solid-electric-blue", name: "Solid Electric Blue", colors: ["Electric Blue"] },
 ];
 

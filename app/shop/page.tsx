@@ -57,8 +57,7 @@ export default async function ShopPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { color, deals, solids } = await searchParams;
-  const dealsOn = deals === "1";
+  const { color, solids } = await searchParams;
   const solidsOn = solids === "1";
   const colors = colorCounts();
   // Only accept a color that really exists; anything else shows everything.
@@ -92,73 +91,56 @@ export default async function ShopPage({
       />
       {/* Phone-only filter bar, styled after Amazon's mobile search filters. */}
       <div className="-mx-6 mb-6 border-b border-[#d5d9d9] bg-white shadow-[0_2px_4px_rgba(15,17,17,0.08)] peer-checked:[&_.color-filter-btn]:border-2 peer-checked:[&_.color-filter-btn]:border-[#0f1111] peer-checked:[&_.color-filter-btn]:bg-[#f0f2f2] sm:hidden">
-        <div className="flex items-center gap-2 overflow-x-auto px-3 py-2.5">
+        <div className="flex items-center gap-3 px-3 py-3">
           <label
             htmlFor="color-filter-toggle"
-            className="color-filter-btn flex h-9 w-[68px] shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-[#888c8c] text-[#0f1111]"
+            aria-label="Show color filter"
+            className="color-filter-btn flex h-12 flex-1 cursor-pointer items-center justify-center rounded-[12px] border border-[#888c8c] text-[#0f1111]"
           >
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+            <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
               <path d="M3 7h9M17 7h4M3 17h4M12 17h9" />
               <circle cx="14.5" cy="7" r="2.5" />
               <circle cx="9.5" cy="17" r="2.5" />
             </svg>
           </label>
 
+          <span className="h-10 w-px shrink-0 bg-[#d5d9d9]" aria-hidden="true" />
+
           <Link
-            href={chipHref({ color: active, deals: dealsOn, solids: !solidsOn })}
+            href={chipHref({ color: active, solids: !solidsOn })}
             scroll={false}
             role="switch"
             aria-checked={solidsOn}
-            className="flex shrink-0 items-center gap-2 pl-1 pr-2"
+            className="flex h-12 flex-1 items-center justify-center gap-3"
           >
-            <span className="text-[17px] font-bold italic leading-none text-[#0f1111]">solids</span>
+            <span className="text-[22px] font-bold italic leading-none text-[#0f1111]">solids</span>
             <span
-              className={`flex h-7 w-[52px] items-center rounded-full border-2 border-[#232f3e] px-[3px] transition ${
+              className={`flex h-9 w-16 items-center rounded-full border-2 border-[#232f3e] px-[3px] transition ${
                 solidsOn ? "justify-end bg-[#232f3e]" : "justify-start bg-white"
               }`}
             >
               <span
-                className={`flex h-5 w-5 items-center justify-center rounded-full ${
+                className={`flex h-7 w-7 items-center justify-center rounded-full ${
                   solidsOn ? "bg-white text-[#232f3e]" : "bg-[#232f3e] text-white"
                 }`}
               >
-                <span className="block h-0.5 w-2 rounded bg-current" />
+                <span className="block h-0.5 w-3 rounded bg-current" />
               </span>
             </span>
           </Link>
-
-          <span className="h-8 w-px shrink-0 bg-[#d5d9d9]" aria-hidden="true" />
-
-          <Link
-            href={chipHref({ color: active, deals: !dealsOn, solids: solidsOn })}
-            scroll={false}
-            aria-current={dealsOn ? "true" : undefined}
-            className={`flex h-9 shrink-0 items-center whitespace-nowrap rounded-[10px] px-3.5 text-[15px] leading-none text-[#0f1111] ${
-              dealsOn
-                ? "border-2 border-[#0f1111] bg-[#f0f2f2] font-medium"
-                : "border border-[#888c8c] bg-white"
-            }`}
-          >
-            Today&rsquo;s deals
-          </Link>
         </div>
       </div>
-      {dealsOn && (
-        <p className="-mt-2 mb-6 text-sm text-[#4a1d31]/70 sm:hidden">
-          No deals running today. Check back soon.
-        </p>
-      )}
 
       <nav id="filter-by-color" aria-label="Filter by color" className="mb-10 hidden sm:block peer-checked:block">
         <p className="mb-3 text-sm font-bold uppercase tracking-[0.12em] text-[#b15356]">
           Filter by color
         </p>
         <div className="flex flex-wrap gap-x-3 gap-y-4">
-          <Swatch href={chipHref({ deals: dealsOn, solids: solidsOn })} active={!active} label="All" count={READY_MADE.length} />
+          <Swatch href={chipHref({ solids: solidsOn })} active={!active} label="All" count={READY_MADE.length} />
           {colors.map(({ color: c, count }) => (
             <Swatch
               key={c}
-              href={chipHref({ color: c, deals: dealsOn, solids: solidsOn })}
+              href={chipHref({ color: c, solids: solidsOn })}
               active={active === c}
               label={c}
               count={count}
@@ -197,10 +179,9 @@ export default async function ShopPage({
 }
 
 /** Shop URL for the next filter-bar state, keeping the other filters. */
-function chipHref(next: { color?: string; deals: boolean; solids: boolean }): string {
+function chipHref(next: { color?: string; solids: boolean }): string {
   const params = new URLSearchParams();
   if (next.color) params.set("color", next.color);
-  if (next.deals) params.set("deals", "1");
   if (next.solids) params.set("solids", "1");
   const qs = params.toString();
   return qs ? `/shop?${qs}` : "/shop";
