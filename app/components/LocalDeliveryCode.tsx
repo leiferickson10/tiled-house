@@ -74,22 +74,11 @@ export default function LocalDeliveryCode() {
   }
 
   return (
-    <div className="mt-5 rounded-lg border-2 border-[#b15356] bg-[#ddcd71]/35 p-4">
-      <div className="flex items-center gap-3">
-        <TruckIcon />
-        <div>
-          <p
-            className="text-xl leading-tight text-[#4a1d31]"
-            style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 800 }}
-          >
-            Local to us?
-          </p>
-          <p className="text-sm font-medium text-[#4a1d31]">
-            Enter your delivery code for free local delivery.
-          </p>
-        </div>
-      </div>
-      <form onSubmit={apply} className="mt-3 flex gap-2">
+    <details className="mt-4">
+      <summary className="min-h-11 cursor-pointer py-2 text-base font-bold text-[#b15356] underline underline-offset-4 hover:text-[#9a4347]">
+        Have a local delivery code?
+      </summary>
+      <form onSubmit={apply} className="mt-2 flex gap-2">
         <input
           name="code"
           type="text"
@@ -117,7 +106,7 @@ export default function LocalDeliveryCode() {
           Couldn&rsquo;t check the code. Please try again.
         </p>
       )}
-    </div>
+    </details>
   );
 }
 
