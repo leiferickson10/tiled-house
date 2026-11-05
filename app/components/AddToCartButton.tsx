@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { cartActions } from "../lib/cart";
 import { MAX_QTY_PER_LINE, formatUsd } from "../lib/shop";
-import { SOLD_OUT_IN_CODE, soldOutTilesIn } from "../lib/stock";
+import { isSoldOut } from "../lib/stock";
 
 /** Adds one coaster (a cart item id, see lib/shop.ts) to the cart. */
 export default function AddToCartButton({
@@ -20,8 +20,8 @@ export default function AddToCartButton({
 }) {
   const [added, setAdded] = useState(false);
   const [atLimit, setAtLimit] = useState(false);
-  // Sold out when any tile color this coaster needs has run out.
-  const soldOut = soldOutTilesIn(id, SOLD_OUT_IN_CODE).length > 0;
+  // Sold out when this coaster is listed as sold out, or a color it needs has run out.
+  const soldOut = isSoldOut(id);
 
   const add = () => {
     const result = cartActions.add(id);

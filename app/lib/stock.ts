@@ -11,6 +11,29 @@ import { TILES } from "./tiles";
  */
 export const SOLD_OUT_IN_CODE: string[] = [];
 
+/**
+ * Individual ready-made coasters that are sold out, by slug (see lib/coasters.ts).
+ * Unlike SOLD_OUT_IN_CODE this sells out one product, not every product using a
+ * color. Currently: every Moonlight coaster except Solid Moonlight and
+ * Moonlight + Coastal Blue. Remove a slug and push when it's back in stock.
+ */
+export const SOLD_OUT_PRODUCTS: string[] = [
+  "pearl-moonlight",
+  "moonlight-powder",
+  "moonlight-grasshopper",
+  "moonlight-brandied-melon",
+  "moonlight-electric-blue",
+  "moonlight-auburn",
+  "moonlight-ruby",
+];
+
+/** True if this cart item can't be ordered: a sold-out coaster or a sold-out color. */
+export function isSoldOut(id: unknown): boolean {
+  if (typeof id === "string" && id.startsWith("p:") && SOLD_OUT_PRODUCTS.includes(id.slice(2)))
+    return true;
+  return soldOutTilesIn(id, SOLD_OUT_IN_CODE).length > 0;
+}
+
 /** Every valid tile color name. */
 export const TILE_NAMES = TILES.map((t) => t.name);
 

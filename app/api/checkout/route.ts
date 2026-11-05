@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { isLocalDeliveryCode } from "../../lib/localDelivery";
-import { SOLD_OUT_IN_CODE, soldOutTilesIn } from "../../lib/stock";
+import { isSoldOut } from "../../lib/stock";
 import { getStripe } from "../../lib/stripe";
 import { SHIPPING_CENTS, discountFor, resolveItem, shippingFor, validateCart } from "../../lib/shop";
 
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
   // Sold out: refuse any coaster that needs a tile color we've run out of. This
   // is the real check; the shop's "Sold out" buttons are just a convenience.
   for (const { id } of cart.items) {
-    if (soldOutTilesIn(id, SOLD_OUT_IN_CODE).length > 0) {
+    if (isSoldOut(id)) {
       return NextResponse.json(
         { error: `Sorry, ${resolveItem(id)!.name} just sold out. Please remove it from your cart.` },
         { status: 409 },
